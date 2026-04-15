@@ -1,0 +1,87 @@
+.delivery-card {
+  padding: 1.25rem;
+  transition: all 0.3s ease;
+  animation: slideUp 0.4s ease forwards;
+  opacity: 0;
+}
+
+.delivery-card:hover {
+  border-color: var(--accent-primary);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+.delivery-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.delivery-card-id {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  font-family: monospace;
+  letter-spacing: 0.02em;
+}
+
+.delivery-card-body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem 2rem;
+  margin-bottom: 1rem;
+}
+
+.delivery-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.delivery-field-label {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 500;
+}
+
+.delivery-field-value {
+  font-size: 0.92rem;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.delivery-fee {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--accent-primary);
+}
+
+.delivery-card-actions {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--surface-border);
+}
+
+.delivery-card-actions .btn {
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Stagger animation for lists */
+.delivery-card:nth-child(1) { animation-delay: 0s; }
+.delivery-card:nth-child(2) { animation-delay: 0.08s; }
+.delivery-card:nth-child(3) { animation-delay: 0.16s; }
+.delivery-card:nth-child(4) { animation-delay: 0.24s; }
+.delivery-card:nth-child(5) { animation-delay: 0.32s; }
+
+@media (max-width: 600px) {
+  .delivery-card-body {
+    grid-template-columns: 1fr;
+  }
+}

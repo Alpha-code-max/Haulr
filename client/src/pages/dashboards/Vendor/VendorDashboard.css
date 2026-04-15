@@ -1,0 +1,144 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.dashboard-header {
+  border-bottom: none;
+  padding-bottom: 1rem;
+}
+
+.header-icon {
+  margin-right: 0.5rem;
+  color: var(--accent-primary);
+  vertical-align: middle;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.btn-inbox {
+  background: var(--surface);
+  border: none;
+  border-radius: 6px;
+  padding: 8px;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-inbox:hover {
+  background: var(--surface-hover);
+  border-color: var(--primary);
+}
+
+.wallet-section, .deliveries-section {
+  padding: 1.5rem;
+}
+
+.placeholder-card {
+  padding: 2rem;
+  text-align: center;
+  background: rgba(0,0,0,0.1);
+  border-radius: 8px;
+  border: none;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.deliveries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.delivery-card {
+  background: rgba(0, 0, 0, 0.1);
+  border: none;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: all 0.2s ease;
+}
+
+.delivery-card:hover {
+  background: rgba(0, 0, 0, 0.15);
+  border-color: transparent;
+}
+
+.delivery-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.delivery-fee {
+  font-weight: 600;
+  color: var(--accent-primary);
+  font-size: 1.1rem;
+}
+
+.delivery-details p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.delivery-details strong {
+  color: var(--text-primary);
+}
+
+.btn-accept {
+  padding: 8px 16px;
+  background: var(--primary);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.btn-accept:hover:not(:disabled) {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+}
+
+.btn-accept:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+}

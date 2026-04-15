@@ -1,0 +1,64 @@
+.wallet-card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  background: linear-gradient(135deg, rgba(88, 166, 255, 0.1), rgba(0, 0, 0, 0.4));
+  border: 1px solid var(--surface-border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
+
+.wallet-balance-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.wallet-label {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 700;
+}
+
+.wallet-amount {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.currency-sym {
+  font-size: 1.5rem;
+  color: var(--accent-primary);
+}
+
+.transaction-btn-group {
+  display: flex;
+  gap: 1rem;
+}
+
+.btn-topup {
+  background-color: var(--accent-primary);
+  color: white;
+  flex: 1;
+}
+
+.btn-topup:hover {
+  background-color: var(--accent-primary-hover);
+}
+
+.btn-withdraw {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: 1px solid var(--surface-border);
+  flex: 1;
+}
+
+.btn-withdraw:hover {
+  background-color: rgba(255,255,255,0.05);
+}

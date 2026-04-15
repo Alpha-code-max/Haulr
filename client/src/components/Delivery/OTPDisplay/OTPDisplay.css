@@ -1,0 +1,50 @@
+.otp-display {
+  padding: 1.5rem;
+  text-align: center;
+  border: 2px solid rgba(57, 208, 216, 0.3);
+  background: rgba(57, 208, 216, 0.05);
+}
+
+.otp-display-label {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.75rem;
+  font-weight: 500;
+}
+
+.otp-display-code {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: 0.5rem;
+  color: var(--status-in-transit);
+  font-family: 'Inter', monospace;
+  margin-bottom: 0.75rem;
+  user-select: all;
+}
+
+.otp-display-hint {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.otp-copy-btn {
+  padding: 0.5rem 1.25rem;
+  font-size: 0.85rem;
+}
+
+.otp-copied {
+  color: var(--success);
+  font-size: 0.85rem;
+  font-weight: 500;
+  animation: fadeIn 0.2s ease;
+}
+
+.otp-display-hidden {
+  padding: 1.25rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
