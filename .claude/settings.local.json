@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(find \"C:\\\\Users\\\\Hp\\\\Desktop\\\\Haulr\\\\client\\\\src\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" \\\\\\) ! -path \"*/node_modules/*\" -exec wc -l {} \\\\;)",
+      "Bash(awk '{print $1, $2}')",
+      "Bash(find \"C:\\\\Users\\\\Hp\\\\Desktop\\\\Haulr\\\\client\\\\src\" -type f \\\\\\( -name \"*.tsx\" -o -name \"*.ts\" \\\\\\) ! -path \"*/node_modules/*\" -exec wc -l {} +)",
+      "Bash(gh auth *)",
+      "Bash(git --version)",
+      "Bash(where git *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)"
+    ]
+  }
+}

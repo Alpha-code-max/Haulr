@@ -15,7 +15,6 @@ import { ThemeProvider } from "./context/ThemeContext";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import VendorWallet from "./pages/dashboards/Vendor/VendorWallet";
 import Profile from "./pages/dashboards/Profile/Profile";
-import AdminDashboard from "./pages/dashboards/Admin/AdminDashboard";
 
 function App() {
   const { checkAuth, isLoading, isAuthenticated, user } = useAuthStore();
@@ -70,10 +69,6 @@ function App() {
 
           <Route element={<ProtectedRoute allowedRoles={["customer"]} />}>
             <Route path="customer" element={<CustomerDashboard />} />
-          </Route>
-
-          <Route element={<ProtectedRoute allowedRoles={["admin"]} />}>
-            <Route path="admin" element={<AdminDashboard />} />
           </Route>
 
           <Route element={<ProtectedRoute allowedRoles={["vendor", "hauler", "customer", "admin"]} />}>

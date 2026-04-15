@@ -1,0 +1,16 @@
+{
+  "name": "haulr",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Haulr delivery logistics platform monorepo",
+  "scripts": {
+    "client": "cd client && npm run dev",
+    "admin": "cd admin && npm run dev",
+    "server": "cd server && bun run dev",
+    "dev": "concurrently \"npm run client\" \"npm run server\"",
+    "install:all": "cd client && npm install && cd ../admin && npm install && cd ../server && npm install"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.0"
+  }
+}
