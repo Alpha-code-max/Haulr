@@ -61,7 +61,7 @@ const AcceptDeliveryForm: React.FC<AcceptDeliveryFormProps> = ({
   };
 
   const currentFee = parseFloat(formData.deliveryFee) || 0;
-  const platformCharge = 25;
+  const platformCharge = 100;
   const totalCustomerPays = currentFee + platformCharge;
 
   return (
@@ -132,7 +132,7 @@ const AcceptDeliveryForm: React.FC<AcceptDeliveryFormProps> = ({
           <div className="flex gap-3 text-sm text-muted-foreground bg-muted/30 rounded-2xl p-4">
             <AlertCircle className="w-5 h-5 text-amber-500 mt-0.5 flex-shrink-0" />
             <p>
-              An additional ₦25 platform service charge will be added to your fee. 
+              An additional ₦100 platform service charge will be added to your fee. 
               The customer will see the total amount.
             </p>
           </div>

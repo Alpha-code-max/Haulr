@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 type Theme = 'dark' | 'light';
 
@@ -22,21 +22,30 @@ interface ThemeProviderProps {
 }
 
 export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const theme = 'light';
+  const [theme, setTheme] = useState<Theme>(() => {
+    const stored = localStorage.getItem('haulr-theme');
+    if (stored === 'dark' || stored === 'light') return stored;
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  });
 
   useEffect(() => {
-    document.documentElement.classList.remove('dark');
-    document.documentElement.setAttribute('data-theme', 'light');
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    root.setAttribute('data-theme', theme);
+    localStorage.setItem('haulr-theme', theme);
 
     const metaThemeColor = document.querySelector('meta[name="theme-color"]');
     if (metaThemeColor) {
-      metaThemeColor.setAttribute('content', '#ffffff');
+      metaThemeColor.setAttribute('content', theme === 'dark' ? '#0f172a' : '#ffffff');
     }
-    localStorage.removeItem('haulr-theme');
-  }, []);
+  }, [theme]);
 
   const toggleTheme = () => {
-    // Disabled
+    setTheme(prev => (prev === 'dark' ? 'light' : 'dark'));
   };
 
   return (

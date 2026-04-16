@@ -57,6 +57,22 @@ export class AdminService {
   }
 
   /**
+   * Promote a user to admin or super_admin
+   */
+  static async promoteUser(email: string, role: "admin" | "super_admin") {
+    if (!["admin", "super_admin"].includes(role)) {
+      throw new Error("Invalid role. Must be 'admin' or 'super_admin'.");
+    }
+    const user = await User.findOneAndUpdate(
+      { email: email.toLowerCase() },
+      { role },
+      { new: true }
+    );
+    if (!user) throw new Error(`User with email ${email} not found.`);
+    return user;
+  }
+
+  /**
    * Get all deliveries with full details
    */
   static async getAllDeliveries() {

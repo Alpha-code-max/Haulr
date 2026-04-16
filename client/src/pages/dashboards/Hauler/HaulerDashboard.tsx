@@ -69,19 +69,19 @@ const HaulerDashboard: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 p-3 sm:p-6">
+    <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 p-3 sm:p-6">
       <div className="max-w-7xl mx-auto space-y-8 sm:space-y-12">
 
         {/* Header */}
-        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-slate-200">
+        <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6 sm:gap-8 pb-6 sm:pb-8 border-b border-slate-200 dark:border-slate-800">
           <div className="space-y-2">
             <h1 className="text-3xl sm:text-4xl font-bold flex items-center gap-4">
-              <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200">
+              <div className="p-3 bg-blue-600 rounded-2xl shadow-lg shadow-blue-200 dark:shadow-blue-900">
                 <FiTruck className="w-7 h-7 sm:w-8 sm:h-8 text-white" />
               </div>
               Hauler Terminal
             </h1>
-            <p className="text-slate-500 text-base sm:text-lg ml-1">
+            <p className="text-slate-500 dark:text-slate-400 text-base sm:text-lg ml-1">
               Manage transit flow and secure payouts via OTP
             </p>
           </div>
@@ -97,15 +97,15 @@ const HaulerDashboard: React.FC = () => {
 
         {/* Navigation Tabs */}
         <div className="overflow-x-auto -mx-3 px-3 sm:mx-0 sm:px-0">
-          <div className="flex gap-2 sm:gap-4 p-1.5 bg-slate-200/50 rounded-2xl w-fit min-w-max">
+          <div className="flex gap-2 sm:gap-4 p-1.5 bg-slate-200/50 dark:bg-slate-800/50 rounded-2xl w-fit min-w-max">
             {tabs.map(({ id, label, Icon, count, activeColor }) => (
               <button
                 key={id}
                 onClick={() => setActiveTab(id)}
                 className={`px-4 sm:px-6 py-2.5 rounded-xl text-sm font-bold transition-all flex items-center gap-2 whitespace-nowrap ${
                   activeTab === id
-                    ? `bg-white ${activeColor} shadow-sm`
-                    : "text-slate-500 hover:text-slate-700"
+                    ? `bg-white dark:bg-slate-700 ${activeColor} shadow-sm`
+                    : "text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200"
                 }`}
               >
                 <Icon size={15} />

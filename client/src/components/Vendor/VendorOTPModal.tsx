@@ -1,6 +1,6 @@
 import React from "react";
 import {
-  FiMessageSquare,
+  FiShield,
   FiAlertCircle,
   FiRefreshCw,
   FiClock,
@@ -41,11 +41,11 @@ const VendorOTPModal: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-2xl bg-white border border-slate-200 rounded-3xl p-0 max-h-[90vh] flex flex-col">
-        <DialogHeader className="p-8 pb-6 border-b border-slate-100 flex-shrink-0">
-          <DialogTitle className="text-2xl font-semibold flex items-center gap-3">
-            <FiMessageSquare className="text-blue-600" />
-            Customer Verification Codes
+      <DialogContent className="sm:max-w-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-0 max-h-[90vh] flex flex-col">
+        <DialogHeader className="p-8 pb-6 border-b border-slate-100 dark:border-slate-800 flex-shrink-0">
+          <DialogTitle className="text-2xl font-semibold flex items-center gap-3 dark:text-slate-100">
+            <FiShield className="text-blue-600" />
+            Security Verification Code
           </DialogTitle>
         </DialogHeader>
 
@@ -67,11 +67,11 @@ const VendorOTPModal: React.FC<Props> = ({
               return (
                 <div
                   key={delivery._id}
-                  className="border-b border-slate-100 pb-10 last:border-0 last:pb-0"
+                  className="border-b border-slate-100 dark:border-slate-800 pb-10 last:border-0 last:pb-0"
                 >
                   <div className="flex justify-between mb-6">
                     <StatusBadge status={delivery.status} />
-                    <span className="font-mono text-xs text-slate-500">
+                    <span className="font-mono text-xs text-slate-500 dark:text-slate-400">
                       ID: {delivery._id.slice(-8)}
                     </span>
                   </div>
@@ -79,8 +79,8 @@ const VendorOTPModal: React.FC<Props> = ({
                   <div
                     className={`relative rounded-2xl p-8 text-center border transition-all ${
                       expired
-                        ? "bg-red-50 border-red-200"
-                        : "bg-slate-50 border-slate-200"
+                        ? "bg-red-50 dark:bg-red-950/30 border-red-200 dark:border-red-900"
+                        : "bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700"
                     }`}
                   >
                     {expired && (
@@ -98,12 +98,12 @@ const VendorOTPModal: React.FC<Props> = ({
                     </p>
                     <p
                       className={`text-5xl font-mono font-bold tracking-widest ${
-                        expired ? "text-red-300" : "text-slate-900"
+                        expired ? "text-red-300 dark:text-red-600" : "text-slate-900 dark:text-slate-100"
                       }`}
                     >
                       {delivery.otp}
                     </p>
-                    <p className="text-sm text-slate-500 mt-4">
+                    <p className="text-sm text-slate-500 dark:text-slate-400 mt-4">
                       {expired
                         ? "This code has expired. Regenerate a new one for the hauler."
                         : "Share this code with the customer for delivery verification."}

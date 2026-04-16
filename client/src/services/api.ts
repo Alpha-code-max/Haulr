@@ -22,12 +22,15 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Only logout if not already on login page to prevent redirect loops
-      if (window.location.pathname !== "/login") {
-        useAuthStore.setState({ 
-          user: null, 
-          token: null, 
-          isAuthenticated: false 
+      const isLoginPage = window.location.pathname === "/login";
+      // Skip auto-redirect for background auth checks (checkAuth on app load)
+      const isAuthCheck = error.config?.headers?.["X-Auth-Check"] === "true";
+
+      if (!isLoginPage && !isAuthCheck) {
+        useAuthStore.setState({
+          user: null,
+          token: null,
+          isAuthenticated: false
         });
         localStorage.removeItem("haulr_token");
         window.location.href = "/login";

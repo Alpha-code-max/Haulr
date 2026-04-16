@@ -18,7 +18,8 @@ export const protect =
       console.log(`[AUTH DEBUG] Decoded token:`, decoded);
       console.log(`[AUTH DEBUG] Required roles:`, roles);
 
-      if (roles.length && !roles.includes(decoded.role)) {
+      // super_admin bypasses all role restrictions
+      if (roles.length && !roles.includes(decoded.role) && decoded.role !== "super_admin") {
         console.error(`[AUTH DEBUG] Forbidden: User role ${decoded.role} not in ${roles}`);
         return res.status(403).json({ message: "Forbidden: Role mismatch" });
       }

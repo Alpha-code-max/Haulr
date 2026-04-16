@@ -1,8 +1,49 @@
-@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Macondo&family=Open+Sans:wght@300;400;500;600;700;800&display=swap');
 
 @import "tailwindcss";
 
+@variant dark (&:where(.dark, .dark *));
+
+@theme {
+  --font-heading: 'Macondo', serif;
+}
+
 @layer base {
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 224.3 76.3% 48%;
+
+    --surface: hsla(222, 84%, 5%, 0.85);
+    --surface-hover: hsla(222, 84%, 8%, 0.9);
+
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --surface-border: rgba(255, 255, 255, 0.08);
+    --surface-color: rgba(15, 23, 42, 0.85);
+
+    --accent-primary: #3b82f6;
+    --accent-primary-hover: #2563eb;
+    --accent-secondary: #10b981;
+  }
+
   :root {
     --background: 0 0% 100%;
     --foreground: 222.2 84% 4.9%;
@@ -99,6 +140,10 @@
   h3 { font-size: 1.45rem; font-weight: 600; line-height: 1.4; margin-bottom: 1rem; }
   h4 { font-size: 1.15rem; font-weight: 600; line-height: 1.4; }
   p { line-height: 1.6; }
+
+  h1, h2, h3 {
+    font-family: var(--font-heading);
+  }
 
   h1, h2, h3, h4 {
     letter-spacing: -0.01em;

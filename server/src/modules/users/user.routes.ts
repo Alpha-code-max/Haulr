@@ -100,7 +100,8 @@ const registerSchema = z.object({
   email: z.string().email("Invalid email format"),
   phone: z.string().min(10, "Phone number is too short"),
   password: z.string().min(6, "Password must be at least 6 characters"),
-  role: z.enum(["vendor", "customer", "hauler", "admin"]),
+  role: z.enum(["vendor", "customer", "hauler"]),
+  referralCode: z.string().optional(),
 });
 
 const loginSchema = z.object({
@@ -254,5 +255,6 @@ router.post("/onboard/hauler", protect(["hauler"]), validate(haulerOnboardSchema
 router.get("/profile", protect(), UserController.getProfile);
 router.patch("/profile", protect(), UserController.updateProfile);
 router.patch("/bank-details", protect(), UserController.updateBankDetails);
+router.get("/referrals", protect(), UserController.getReferrals);
 
 export default router;

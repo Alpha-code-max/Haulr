@@ -5,30 +5,34 @@ import { connectDB } from "../config/database";
 
 const promoteAdmin = async () => {
   const email = process.argv[2];
+  const roleArg = process.argv[3]; // optional: --role=super_admin
+  const role = roleArg?.startsWith("--role=") ? roleArg.split("=")[1] : "admin";
 
   if (!email) {
-    console.error("Please provide an email: bun run promote-admin.ts <email>");
+    console.error("Usage: npm run promote-admin <email> [--role=admin|super_admin]");
+    process.exit(1);
+  }
+
+  if (!["admin", "super_admin"].includes(role)) {
+    console.error(`Invalid role "${role}". Must be "admin" or "super_admin".`);
     process.exit(1);
   }
 
   try {
-    // 1. Connect to DB
     await connectDB();
 
-    // 2. Find and update the user
     const user = await User.findOneAndUpdate(
       { email: email.toLowerCase() },
-      { role: "admin" },
+      { role },
       { new: true }
     );
 
     if (!user) {
       console.error(`User with email ${email} not found.`);
     } else {
-      console.log(`✅ Success! ${user.name} (${user.email}) is now an ADMIN.`);
+      console.log(`✅ Success! ${user.name} (${user.email}) is now a ${role.toUpperCase()}.`);
     }
 
-    // 3. Close connection
     await mongoose.connection.close();
     process.exit(0);
   } catch (error) {

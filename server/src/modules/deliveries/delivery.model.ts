@@ -36,6 +36,9 @@ const deliverySchema = new Schema<DeliveryDoc>(
     deliveryFee: { 
       type: Number
     },
+    platformFee: { 
+      type: Number 
+    },
     otp: { 
       type: String 
     },

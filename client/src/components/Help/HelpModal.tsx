@@ -1,13 +1,12 @@
 import React from "react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../ui/dialog";
-import { 
-  FiBox, 
-  FiTruck, 
-  FiShield, 
-  FiDollarSign, 
-  FiKey, 
-  FiClock, 
-  FiCheckCircle, 
+import { Dialog, DialogContent } from "../ui/dialog";
+import {
+  FiBox,
+  FiTruck,
+  FiShield,
+  FiDollarSign,
+  FiKey,
+  FiCheckCircle,
   FiArrowRight,
   FiHelpCircle,
   FiMapPin,
@@ -25,25 +24,25 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, defaultTab = "ve
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="max-w-3xl bg-white border-none p-0 overflow-hidden rounded-[2rem] shadow-2xl max-h-[90vh] flex flex-col">
+      <DialogContent className="max-w-3xl bg-white dark:bg-slate-900 border-none p-0 overflow-hidden rounded-[2rem] shadow-2xl max-h-[90vh] flex flex-col">
         {/* Sidebar/Header Navigation */}
-        <div className="flex border-b border-slate-100 bg-slate-50/50">
-          <button 
+        <div className="flex border-b border-slate-100 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-800/50">
+          <button
             onClick={() => setActiveTab("vendor")}
             className={`flex-1 py-6 flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs transition-all ${
-              activeTab === "vendor" 
-                ? "bg-white text-blue-600 border-b-2 border-blue-500 shadow-[0_10px_20px_-10px_rgba(37,99,235,0.2)]" 
-                : "text-slate-400 hover:text-slate-600"
+              activeTab === "vendor"
+                ? "bg-white dark:bg-slate-900 text-blue-600 border-b-2 border-blue-500 shadow-[0_10px_20px_-10px_rgba(37,99,235,0.2)]"
+                : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             }`}
           >
             <FiBox size={16} /> Vendor Guide
           </button>
-          <button 
+          <button
             onClick={() => setActiveTab("hauler")}
             className={`flex-1 py-6 flex items-center justify-center gap-3 font-black uppercase tracking-widest text-xs transition-all ${
-              activeTab === "hauler" 
-                ? "bg-white text-emerald-600 border-b-2 border-emerald-500 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.2)]" 
-                : "text-slate-400 hover:text-slate-600"
+              activeTab === "hauler"
+                ? "bg-white dark:bg-slate-900 text-emerald-600 border-b-2 border-emerald-500 shadow-[0_10px_20px_-10px_rgba(16,185,129,0.2)]"
+                : "text-slate-400 hover:text-slate-600 dark:hover:text-slate-300"
             }`}
           >
             <FiTruck size={16} /> Hauler Guide
@@ -126,7 +125,7 @@ const HelpModal: React.FC<HelpModalProps> = ({ isOpen, onClose, defaultTab = "ve
                   <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
                     <FiTruck className="text-emerald-500 mb-3" />
                     <h4 className="font-bold text-slate-800 text-sm mb-1">Smart Bidding</h4>
-                    <p className="text-xs text-slate-500 leading-relaxed">Accept jobs from the Marketplace and set your fee. Haulr adds a flat ₦25 service charge automatically.</p>
+                    <p className="text-xs text-slate-500 leading-relaxed">Accept jobs from the Marketplace and set your fee. Haulr adds a flat ₦100 service charge automatically.</p>
                   </div>
                   <div className="p-5 bg-slate-50 rounded-2xl border border-slate-100">
                     <FiDollarSign className="text-emerald-500 mb-3" />

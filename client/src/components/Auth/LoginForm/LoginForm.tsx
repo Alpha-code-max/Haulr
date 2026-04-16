@@ -33,6 +33,8 @@ const LoginForm: React.FC = () => {
       // Determine redirect destination based on role and KYC status
       if ((user.role === "vendor" || user.role === "hauler") && user.kycStatus !== "verified") {
         navigate("/onboarding");
+      } else if (user.role === "admin" || user.role === "super_admin") {
+        navigate("/");
       } else {
         navigate(`/${user.role}`);
       }

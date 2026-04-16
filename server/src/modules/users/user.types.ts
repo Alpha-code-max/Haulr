@@ -1,4 +1,4 @@
-export type UserRole = "vendor" | "customer" | "hauler" | "admin";
+export type UserRole = "vendor" | "customer" | "hauler" | "admin" | "super_admin";
 export type KycStatus = "unverified" | "pending" | "verified" | "rejected";
 
 /**
@@ -10,6 +10,7 @@ export interface CreateUserDTO {
   phone: string;
   password: string;
   role: UserRole;
+  referralCode?: string; // Incoming referral code (referrer's code)
 }
 
 /**
@@ -68,4 +69,6 @@ export interface PublicUser {
   vehiclePlate?: string;
   nin?: string;
   avatar?: string;
+  referralCode?: string;
+  referredBy?: string | null;
 }

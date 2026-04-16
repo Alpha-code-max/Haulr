@@ -13,7 +13,8 @@
     "build": "bun build src/server.ts --outdir dist --target bun",
     "preview": "bun dist/server.js",
     "test": "bun test",
-    "promote-admin": "tsx src/scripts/promote-admin.ts"
+    "promote-admin": "tsx src/scripts/promote-admin.ts",
+    "seed:super-admin": "tsx src/scripts/seed-super-admin.ts"
   },
   "devDependencies": {
     "@types/bcrypt": "^6.0.0",

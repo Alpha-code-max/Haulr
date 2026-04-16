@@ -26,11 +26,14 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   login: async (email, password) => {
     const { data } = await api.post("/users/login", { email, password });
-    if (data.user?.role !== "admin") {
+    // Login returns { token } — fetch user profile to get role
+    localStorage.setItem("haulr_admin_token", data.token);
+    const { data: me } = await api.get("/users/me");
+    if (me.role !== "admin" && me.role !== "super_admin") {
+      localStorage.removeItem("haulr_admin_token");
       throw new Error("Access denied: admin only");
     }
-    localStorage.setItem("haulr_admin_token", data.token);
-    set({ user: data.user, token: data.token, isAuthenticated: true });
+    set({ user: me, token: data.token, isAuthenticated: true });
   },
 
   logout: () => {
@@ -47,7 +50,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     }
     try {
       const { data } = await api.get("/users/me");
-      if (data.role !== "admin") throw new Error("Not admin");
+      if (data.role !== "admin" && data.role !== "super_admin") throw new Error("Not admin");
       set({ user: data, isAuthenticated: true, isLoading: false });
     } catch {
       localStorage.removeItem("haulr_admin_token");

@@ -67,22 +67,22 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ deliveryId, currentUserTy
       return "bg-blue-600 text-white ml-auto";
     }
     if (type === 'system') {
-      return "bg-slate-100 text-slate-500 mx-auto text-center text-xs max-w-[80%]";
+      return "bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 mx-auto text-center text-xs max-w-[80%]";
     }
-    return "bg-slate-100 text-slate-900 ";
+    return "bg-slate-100 dark:bg-slate-800 text-slate-900 dark:text-slate-100";
   };
 
   return (
-    <div className="flex flex-col h-[560px] bg-white rounded-3xl overflow-hidden border border-slate-200">
+    <div className="flex flex-col h-[560px] bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700">
       {/* Minimalist Header */}
-      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200 bg-slate-50">
+      <div className="flex items-center justify-between px-6 py-5 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
         <div className="flex items-center gap-3">
           <div className="w-9 h-9 bg-blue-100 rounded-2xl flex items-center justify-center">
             <FiMessageSquare className="w-5 h-5 text-blue-600" />
           </div>
           <div>
-            <h3 className="font-semibold text-lg">Delivery Chat</h3>
-            <p className="text-xs text-slate-500">
+            <h3 className="font-semibold text-lg dark:text-slate-100">Delivery Chat</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Delivery #{deliveryId.slice(-6)}
             </p>
           </div>
@@ -126,14 +126,14 @@ const ChatInterface: React.FC<ChatInterfaceProps> = ({ deliveryId, currentUserTy
       </ScrollArea>
 
       {/* Input Area */}
-      <div className="p-5 border-t border-slate-200 bg-white">
+      <div className="p-5 border-t border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900">
         <div className="flex gap-3">
           <Input
             placeholder="Type your message..."
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             onKeyDown={handleKeyPress}
-            className="flex-1 bg-slate-50 border-slate-200 focus-visible:ring-blue-500 rounded-2xl py-6 text-base"
+            className="flex-1 bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder-slate-400 focus-visible:ring-blue-500 rounded-2xl py-6 text-base"
           />
           <Button
             onClick={handleSendMessage}

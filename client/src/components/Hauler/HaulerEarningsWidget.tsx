@@ -19,13 +19,13 @@ const HaulerEarningsWidget: React.FC<Props> = ({
   onManagePayout,
 }) => (
   <div className="flex flex-col items-end gap-3">
-    <div className="bg-white border border-slate-200 rounded-2xl p-1.5 flex gap-1 shadow-sm">
+    <div className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl p-1.5 flex gap-1 shadow-sm">
       <button
         onClick={() => onToggleView("cleared")}
         className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
           earningsView === "cleared"
             ? "bg-blue-600 text-white shadow-md shadow-blue-200"
-            : "text-slate-400 hover:bg-slate-50"
+            : "text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
         }`}
       >
         Cleared
@@ -35,7 +35,7 @@ const HaulerEarningsWidget: React.FC<Props> = ({
         className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
           earningsView === "escrow"
             ? "bg-amber-600 text-white shadow-md shadow-amber-200"
-            : "text-slate-400 hover:bg-slate-50"
+            : "text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-700"
         }`}
       >
         In Escrow
@@ -43,7 +43,7 @@ const HaulerEarningsWidget: React.FC<Props> = ({
     </div>
 
     <div className="text-right">
-      <p className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 mb-1">
+      <p className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-400 dark:text-slate-500 mb-1">
         {earningsView === "cleared" ? "Available Balance" : "Committed in Transit"}
       </p>
       <p

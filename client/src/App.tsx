@@ -41,6 +41,9 @@ function App() {
       }
     }
 
+    // Admin/super_admin users belong in the separate admin app, not the client
+    if (user.role === "admin" || user.role === "super_admin") return "/";
+
     return `/${user.role}`;
   };
 
@@ -71,7 +74,7 @@ function App() {
             <Route path="customer" element={<CustomerDashboard />} />
           </Route>
 
-          <Route element={<ProtectedRoute allowedRoles={["vendor", "hauler", "customer", "admin"]} />}>
+          <Route element={<ProtectedRoute allowedRoles={["vendor", "hauler", "customer", "admin", "super_admin"]} />}>
             <Route path="profile" element={<Profile />} />
           </Route>
         </Route>

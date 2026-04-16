@@ -55,6 +55,7 @@ export class DeliveryService {
 
     delivery.haulerId = new mongoose.Types.ObjectId(haulerId);
     delivery.deliveryFee = deliveryFee;
+    delivery.platformFee = 100; // New platform charge
     delivery.status = "accepted";
     await delivery.save();
 
@@ -77,10 +78,11 @@ export class DeliveryService {
       throw new AppError("No delivery fee set", 400);
     }
 
-    // Escrow funds from vendor wallet
+    // Escrow funds from vendor wallet (Delivery fee + Platform charge)
+    const totalAmount = (delivery.deliveryFee || 0) + (delivery.platformFee || 0);
     await WalletService.createTransaction(vendorId, {
       type: "escrow",
-      amount: delivery.deliveryFee,
+      amount: totalAmount,
       deliveryId: delivery._id as any,
       balanceAfter: 0, // Will be computed inside WalletService
     });

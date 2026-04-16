@@ -29,4 +29,14 @@ export class AdminController {
       next(error);
     }
   }
+
+  static async promoteUser(req: Request, res: Response, next: NextFunction) {
+    try {
+      const { email, role } = req.body;
+      const user = await AdminService.promoteUser(email, role);
+      res.status(200).json({ message: `User promoted to ${role}`, user });
+    } catch (error) {
+      next(error);
+    }
+  }
 }

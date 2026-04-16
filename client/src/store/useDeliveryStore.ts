@@ -10,6 +10,7 @@ export interface DeliveryItem {
   deliveryAddress: string;
   status: "pending" | "accepted" | "priced" | "paid" | "picked_up" | "in_transit" | "delivered" | "cancelled";
   deliveryFee?: number;
+  platformFee?: number;
   otp?: string;
   otpExpiresAt?: string;
   otpAttempts?: number;

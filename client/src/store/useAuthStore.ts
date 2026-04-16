@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import api from "../services/api";
 
-type Role = "customer" | "vendor" | "hauler" | "admin";
+type Role = "customer" | "vendor" | "hauler" | "admin" | "super_admin";
 
 interface User {
   _id: string;
@@ -101,7 +101,9 @@ export const useAuthStore = create<AuthState>((set) => ({
   checkAuth: async () => {
     set({ isLoading: true });
     try {
-      const { data } = await api.get("/users/me");
+      const { data } = await api.get("/users/me", {
+        headers: { "X-Auth-Check": "true" },
+      });
       set({ user: data, isAuthenticated: true });
     } catch (_) {
       set({ user: null, isAuthenticated: false, token: null });

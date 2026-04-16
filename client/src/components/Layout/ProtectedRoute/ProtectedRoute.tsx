@@ -14,7 +14,8 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ allowedRoles }) => {
   }
 
   if (allowedRoles && user && !allowedRoles.includes(user.role)) {
-    // If user tries to access a dashboard they don't own, kick them back to their home
+    // Admin / super_admin belong in the separate admin app — send back to landing page
+    if (user.role === "admin" || user.role === "super_admin") return <Navigate to="/" replace />;
     return <Navigate to={`/${user.role}`} replace />;
   }
 

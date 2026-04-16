@@ -69,13 +69,13 @@ const HaulerOTPModal: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white border border-slate-200 rounded-3xl p-10 z-[70] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-10 z-[70] max-h-[90vh] overflow-y-auto">
         <div className="text-center mb-8">
           <div
             className={`mx-auto w-16 h-16 rounded-2xl flex items-center justify-center mb-6 ${
               delivery?.isLocked
-                ? "bg-red-100 text-red-600"
-                : "bg-amber-100 text-amber-600"
+                ? "bg-red-100 dark:bg-red-900/30 text-red-600 dark:text-red-400"
+                : "bg-amber-100 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400"
             }`}
           >
             {delivery?.isLocked ? (
@@ -84,8 +84,8 @@ const HaulerOTPModal: React.FC<Props> = ({
               <FiCheckCircle className="w-10 h-10" />
             )}
           </div>
-          <DialogTitle className="text-2xl font-bold">Secure Verification</DialogTitle>
-          <p className="text-slate-500 mt-2">Required: PoD Photo & Customer OTP</p>
+          <DialogTitle className="text-2xl font-bold dark:text-slate-100">Secure Verification</DialogTitle>
+          <p className="text-slate-500 dark:text-slate-400 mt-2">Required: PoD Photo & Customer OTP</p>
           {deliveryId && (
             <div className="mt-4 flex items-center justify-center gap-2">
               <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">
@@ -123,8 +123,8 @@ const HaulerOTPModal: React.FC<Props> = ({
                 <div
                   className={`relative h-24 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center cursor-pointer transition-all ${
                     podImageUrl
-                      ? "border-emerald-200 bg-emerald-50/50"
-                      : "border-slate-200 bg-slate-50 hover:bg-white hover:border-amber-400"
+                      ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-900/10"
+                      : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-700 hover:border-amber-400"
                   }`}
                   onClick={() => document.getElementById("pod-upload")?.click()}
                 >
@@ -194,7 +194,7 @@ const HaulerOTPModal: React.FC<Props> = ({
                     setOtpValue(e.target.value.replace(/\D/g, ""));
                     setOtpError("");
                   }}
-                  className="block w-full text-center text-5xl font-mono tracking-[0.2em] bg-slate-50 border border-slate-200 rounded-2xl focus:bg-white focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 h-20 outline-none transition-all"
+                  className="block w-full text-center text-5xl font-mono tracking-[0.2em] bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white rounded-2xl focus:bg-white dark:focus:bg-slate-700 focus:border-amber-500 focus:ring-4 focus:ring-amber-500/10 h-20 outline-none transition-all"
                   placeholder="000000"
                 />
               </div>

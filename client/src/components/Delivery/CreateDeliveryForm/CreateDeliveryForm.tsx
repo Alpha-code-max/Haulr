@@ -7,7 +7,6 @@ import { Input } from "../../../components/ui/input";
 import {
   Dialog,
   DialogContent,
-  DialogHeader,
   DialogTitle,
 } from "../../../components/ui/dialog";
 interface CreateDeliveryFormProps {
@@ -83,10 +82,10 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
   return (
     <Dialog open={true} onOpenChange={onCancel}>
       {" "}
-      <DialogContent className="sm:max-w-lg bg-white border border-slate-200 rounded-3xl p-0 overflow-hidden z-[100]">
+      <DialogContent className="sm:max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl p-0 overflow-hidden z-[100]">
         {" "}
         {/* Fixed Header */}{" "}
-        <div className="px-8 py-6 border-b border-slate-200 bg-slate-50 flex-shrink-0">
+        <div className="px-8 py-6 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 flex-shrink-0">
           {" "}
           <div className="flex items-center justify-between">
             {" "}
@@ -130,7 +129,7 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
                 {" "}
                 <FiUser className="w-4 h-4" /> VENDOR ID{" "}
               </label>{" "}
-              <div className="bg-slate-100 border border-slate-200 rounded-2xl px-4 py-3 font-mono text-sm text-slate-600 break-all">
+              <div className="bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl px-4 py-3 font-mono text-sm text-slate-600 dark:text-slate-400 break-all">
                 {" "}
                 {formData.customerId || "Loading..."}{" "}
               </div>{" "}
@@ -153,7 +152,7 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
                 value={formData.pickupAddress}
                 onChange={handleChange}
                 disabled={isLoading}
-                className="w-full min-h-[88px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-y"
+                className="w-full min-h-[88px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-y"
               />{" "}
             </div>{" "}
             {/* Delivery Address */}{" "}
@@ -174,7 +173,7 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
                 value={formData.deliveryAddress}
                 onChange={handleChange}
                 disabled={isLoading}
-                className="w-full min-h-[88px] rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-y"
+                className="w-full min-h-[88px] rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white placeholder-slate-400 px-4 py-3 text-sm focus:outline-none focus:border-blue-500 resize-y"
               />{" "}
             </div>{" "}
             {/* Item Description */}{" "}
@@ -228,8 +227,8 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
               <div
                 className={`relative group h-24 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center transition-all cursor-pointer ${
                   formData.referenceImage
-                    ? "border-emerald-200 bg-emerald-50/50"
-                    : "border-slate-200 bg-slate-50 hover:bg-white hover:border-blue-400"
+                    ? "border-emerald-200 dark:border-emerald-800 bg-emerald-50/50 dark:bg-emerald-900/10"
+                    : "border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 hover:bg-white dark:hover:bg-slate-700 hover:border-blue-400"
                 }`}
                 onClick={() => document.getElementById("ref-upload")?.click()}
               >
@@ -271,7 +270,7 @@ const CreateDeliveryForm: React.FC<CreateDeliveryFormProps> = ({
             </div>{" "}
             {/* Error Message */}{" "}
             {(formError || error) && (
-              <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-2xl text-sm">
+              <div className="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800 text-red-600 dark:text-red-400 px-4 py-3 rounded-2xl text-sm">
                 {" "}
                 {formError || error}{" "}
               </div>

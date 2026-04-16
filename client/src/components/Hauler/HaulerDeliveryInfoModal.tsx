@@ -28,11 +28,11 @@ const HaulerDeliveryInfoModal: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white rounded-3xl p-8 border border-slate-200 z-[60] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 z-[60] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between text-xl">
+          <DialogTitle className="flex items-center justify-between text-xl dark:text-slate-100">
             Logistics Overview
-            <span className="font-mono text-sm text-slate-400 bg-slate-100 px-2 py-1 rounded-lg">
+            <span className="font-mono text-sm text-slate-400 bg-slate-100 dark:bg-slate-800 dark:text-slate-400 px-2 py-1 rounded-lg">
               #{delivery._id.slice(-8)}
             </span>
           </DialogTitle>
@@ -48,19 +48,19 @@ const HaulerDeliveryInfoModal: React.FC<Props> = ({
             <div className="space-y-6">
               <div>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Origin</p>
-                <p className="text-sm font-medium text-slate-700">{delivery.pickupAddress}</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{delivery.pickupAddress}</p>
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Destination</p>
-                <p className="text-sm font-medium text-slate-700">{delivery.deliveryAddress}</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{delivery.deliveryAddress}</p>
               </div>
             </div>
           </div>
 
-          <div className="p-4 bg-blue-50/50 rounded-2xl flex items-center justify-between">
+          <div className="p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-between">
             <div>
-              <p className="text-xs font-bold text-blue-400 uppercase tracking-widest mb-1">Payout Balance</p>
-              <p className="text-xl font-bold text-blue-700 font-mono">
+              <p className="text-xs font-bold text-blue-400 dark:text-blue-500 uppercase tracking-widest mb-1">Payout Balance</p>
+              <p className="text-xl font-bold text-blue-700 dark:text-blue-300 font-mono">
                 ₦{(delivery.deliveryFee || 0).toLocaleString()}
               </p>
             </div>

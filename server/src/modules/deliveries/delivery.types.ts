@@ -32,6 +32,7 @@ export interface Delivery {
   deliveryAddress: string;
   status: DeliveryStatus;
   deliveryFee?: number;
+  platformFee?: number;
   otp?: string;
   otpExpiresAt?: Date;
   otpAttempts?: number;

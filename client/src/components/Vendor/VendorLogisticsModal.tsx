@@ -22,10 +22,13 @@ interface Props {
   onClose: () => void;
   onChat: (id: string) => void;
   onDelete: (id: string) => void;
-  onShowOTP: () => void;
+  onShowOTP: (id: string) => void;
   onPay: (id: string) => Promise<void>;
   onDecline: (id: string) => Promise<void>;
   isLoading: boolean;
+  error?: string | null;
+  clearError: () => void;
+  walletBalance: number;
 }
 
 const getHaulerName = (hauler: any): string | null => {
@@ -48,6 +51,9 @@ const VendorLogisticsModal: React.FC<Props> = ({
   onPay,
   onDecline,
   isLoading,
+  error,
+  clearError,
+  walletBalance,
 }) => {
   if (!delivery) return null;
 
@@ -56,11 +62,11 @@ const VendorLogisticsModal: React.FC<Props> = ({
 
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white rounded-3xl p-8 border border-slate-200 z-[60] max-h-[90vh] overflow-y-auto">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-700 z-[60] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="flex items-center justify-between text-xl">
+          <DialogTitle className="flex items-center justify-between text-xl dark:text-slate-100">
             Logistics Overview
-            <span className="font-mono text-sm text-slate-400 bg-slate-100 px-2 py-1 rounded-lg">
+            <span className="font-mono text-sm text-slate-400 bg-slate-100 dark:bg-slate-800 dark:text-slate-400 px-2 py-1 rounded-lg">
               #{delivery._id.slice(-8)}
             </span>
           </DialogTitle>
@@ -78,7 +84,7 @@ const VendorLogisticsModal: React.FC<Props> = ({
                 <p
                   className="font-bold underline cursor-pointer hover:text-red-900"
                   onClick={() => {
-                    onShowOTP();
+                    onShowOTP(delivery._id);
                     onClose();
                   }}
                 >
@@ -100,48 +106,86 @@ const VendorLogisticsModal: React.FC<Props> = ({
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
                   Pickup From
                 </p>
-                <p className="text-sm font-medium text-slate-700">{delivery.pickupAddress}</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{delivery.pickupAddress}</p>
               </div>
               <div>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">
                   Deliver To
                 </p>
-                <p className="text-sm font-medium text-slate-700">{delivery.deliveryAddress}</p>
+                <p className="text-sm font-medium text-slate-700 dark:text-slate-300">{delivery.deliveryAddress}</p>
               </div>
             </div>
           </div>
 
           {/* Financial Summary */}
-          <div className="p-5 bg-slate-50 border border-slate-100 rounded-2xl space-y-4">
+          <div className="p-5 bg-slate-50 dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl space-y-4">
             <div className="flex justify-between items-center">
               <div>
                 <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">
                   Escrow Protection
                 </p>
-                <p className="text-[10px] text-emerald-600 font-medium mt-0.5 flex items-center gap-1">
-                  <FiCheckCircle size={10} /> Funds held securely by Haulr
-                </p>
+                <div className="space-y-1 mt-2">
+                  <div className="flex justify-between text-xs text-slate-500">
+                    <span>Hauler Fee</span>
+                    <span>₦{(delivery.deliveryFee || 0).toLocaleString()}</span>
+                  </div>
+                  <div className="flex justify-between text-xs text-slate-500">
+                    <span>Platform Charge</span>
+                    <span>₦{(delivery.platformFee || 0).toLocaleString()}</span>
+                  </div>
+                  <div className="h-px bg-slate-200 dark:bg-slate-700 my-2" />
+                  <div className="flex justify-between items-end">
+                    <p className="text-[10px] text-emerald-600 font-medium flex items-center gap-1">
+                      <FiCheckCircle size={10} /> Total Secure Escrow
+                    </p>
+                    <p className="text-xl font-bold text-blue-600 font-mono">
+                      ₦{((delivery.deliveryFee || 0) + (delivery.platformFee || 0)).toLocaleString()}
+                    </p>
+                  </div>
+                </div>
               </div>
-              <p className="text-xl font-bold text-blue-600 font-mono">
-                ₦{(delivery.deliveryFee || 0).toLocaleString()}
-              </p>
             </div>
 
+            {/* Error & Warning Section */}
+            {(error || (delivery.status === "accepted" && walletBalance < ((delivery.deliveryFee || 0) + (delivery.platformFee || 0)))) && (
+               <div className="mt-4 p-4 rounded-xl border animate-in fade-in slide-in-from-top-2 duration-300 shadow-sm bg-red-50 border-red-100 dark:bg-red-950/20 dark:border-red-900/30">
+                  <div className="flex gap-3">
+                    <FiShield className="text-red-500 shrink-0 mt-0.5" size={16} />
+                    <div className="space-y-1">
+                      <p className="text-sm font-bold text-red-800 dark:text-red-400">
+                        {error ? "Payment failed" : "Insufficient Funds"}
+                      </p>
+                      <p className="text-xs text-red-600 dark:text-red-500 leading-relaxed font-medium">
+                        {error ? error : `Your current balance (₦${walletBalance.toLocaleString()}) is not enough to fund this escrow. Please deposit more to your wallet.`}
+                      </p>
+                      {error && (
+                        <button 
+                          onClick={clearError}
+                          className="text-[10px] font-bold uppercase tracking-wider text-red-800 dark:text-red-400 mt-2 hover:underline"
+                        >
+                          Dismiss error
+                        </button>
+                      )}
+                    </div>
+                  </div>
+               </div>
+            )}
+
             {haulerName && (
-              <div className="pt-4 border-t border-slate-200 flex items-center justify-between">
+              <div className="pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between">
                 <div className="flex items-center gap-3">
-                  <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+                  <div className="p-2 bg-blue-100 dark:bg-blue-900/30 rounded-lg text-blue-600 dark:text-blue-400">
                     <FiTruck size={14} />
                   </div>
                   <div>
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                       Assigned Hauler
                     </p>
-                    <p className="text-sm font-semibold">{haulerName}</p>
+                    <p className="text-sm font-semibold dark:text-slate-200">{haulerName}</p>
                   </div>
                 </div>
                 {haulerPhone && (
-                  <p className="text-xs text-blue-600 font-medium">{haulerPhone}</p>
+                  <p className="text-xs text-blue-600 dark:text-blue-400 font-medium">{haulerPhone}</p>
                 )}
               </div>
             )}
@@ -166,8 +210,13 @@ const VendorLogisticsModal: React.FC<Props> = ({
               <Button
                 className="h-12 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold"
                 onClick={async () => {
-                  await onPay(delivery._id);
-                  onClose();
+                  try {
+                    await onPay(delivery._id);
+                    onClose();
+                  } catch (err) {
+                    // Error is caught by the store and displayed via the `error` prop
+                    console.error("Payment failed from modal:", err);
+                  }
                 }}
                 disabled={isLoading}
               >

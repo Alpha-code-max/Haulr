@@ -17,6 +17,8 @@ export interface IUser extends Document {
   avatar?: string;
   resetPasswordOTP?: string;
   resetPasswordExpire?: Date;
+  referralCode?: string;
+  referredBy?: string | null;
   bankDetails?: {
     bankName: string;
     accountNumber: string;
@@ -56,7 +58,7 @@ const UserSchema = new Schema<IUser>(
 
     role: {
       type: String,
-      enum: ["vendor", "customer", "hauler", "admin"],
+      enum: ["vendor", "customer", "hauler", "admin", "super_admin"],
       required: true,
     },
 
@@ -109,6 +111,16 @@ const UserSchema = new Schema<IUser>(
     resetPasswordExpire: {
       type: Date,
       select: false,
+    },
+    referralCode: {
+      type: String,
+      unique: true,
+      sparse: true,
+      index: true,
+    },
+    referredBy: {
+      type: String,
+      default: null,
     },
     bankDetails: {
       bankName: { type: String, trim: true },

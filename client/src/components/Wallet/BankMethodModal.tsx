@@ -55,9 +55,9 @@ const BankMethodModal: React.FC<BankMethodModalProps> = ({ isOpen, onClose, bala
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-md bg-white rounded-3xl p-8 border border-slate-200">
+      <DialogContent className="sm:max-w-md bg-white dark:bg-slate-900 rounded-3xl p-8 border border-slate-200 dark:border-slate-700">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold flex items-center gap-3">
+          <DialogTitle className="text-2xl font-bold flex items-center gap-3 dark:text-slate-100">
             <FiCreditCard className="text-blue-600" />
             Payout Settings
           </DialogTitle>
@@ -74,13 +74,13 @@ const BankMethodModal: React.FC<BankMethodModalProps> = ({ isOpen, onClose, bala
         ) : (
           <div className="mt-6 space-y-8">
             {/* Wallet Info Block */}
-            <div className="bg-slate-50 rounded-2xl p-6 border border-slate-100">
+            <div className="bg-slate-50 dark:bg-slate-800 rounded-2xl p-6 border border-slate-100 dark:border-slate-700">
               <div className="flex justify-between items-center mb-1">
-                <span className="text-xs uppercase tracking-widest text-slate-500 font-medium">Internal Balance</span>
+                <span className="text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400 font-medium">Internal Balance</span>
                 <FiInfo className="text-slate-400 w-4 h-4 cursor-help" title="Funds cleared from completed deliveries" />
               </div>
-              <p className="text-3xl font-bold text-slate-900">₦{balance.toLocaleString()}</p>
-              <p className="text-xs text-slate-400 mt-2">Available for withdrawal to your bank account.</p>
+              <p className="text-3xl font-bold text-slate-900 dark:text-slate-100">₦{balance.toLocaleString()}</p>
+              <p className="text-xs text-slate-400 dark:text-slate-500 mt-2">Available for withdrawal to your bank account.</p>
             </div>
 
             <form onSubmit={handleSave} className="space-y-6">

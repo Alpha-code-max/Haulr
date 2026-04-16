@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { 
-  FiCreditCard,      // Good replacement for wallet
-  FiPlusCircle, 
-  FiClock, 
-  FiTrendingUp, 
-  FiArrowUpCircle, 
+import {
+  FiCreditCard,
+  FiPlusCircle,
+  FiClock,
+  FiArrowUpCircle,
   FiArrowDownCircle,
-  FiDollarSign 
+  FiDollarSign
 } from "react-icons/fi";
 
 import { useWalletStore } from "../../../store/useWalletStore";

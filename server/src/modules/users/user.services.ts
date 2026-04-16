@@ -1,8 +1,13 @@
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
 import { User } from "./user.models";
 import type { CreateUserDTO, LoginDTO, VendorOnboardDTO, HaulerOnboardDTO, UpdateProfileDTO } from "./user.types";
 import { AppError } from "../../utils/AppError";
 import { generateOTP } from "../../utils/otp";
+
+function generateReferralCode(): string {
+  return "HAULR-" + crypto.randomBytes(4).toString("hex").toUpperCase();
+}
 
 /**
  * Mock NIN validator – accepts any 11-digit numeric string.
@@ -20,6 +25,23 @@ export class UserService {
 
     const hashedPassword = await bcrypt.hash(data.password, 10);
 
+    // Validate incoming referral code if provided
+    let referredBy: string | null = null;
+    if (data.referralCode) {
+      const code = data.referralCode.trim().toUpperCase();
+      const referrer = await User.findOne({ referralCode: code });
+      if (!referrer) throw new AppError("Invalid referral code", 400);
+      referredBy = code;
+    }
+
+    // Generate a unique referral code for the new user
+    let referralCode = generateReferralCode();
+    let attempts = 0;
+    while (await User.exists({ referralCode }) && attempts < 5) {
+      referralCode = generateReferralCode();
+      attempts++;
+    }
+
     try {
       // Explicitly set non-registration fields to their initial states
       const user = await User.create({
@@ -31,6 +53,8 @@ export class UserService {
         kycStatus: "unverified",
         isVerified: false,
         vehicleImages: [],
+        referralCode,
+        referredBy,
       });
       return user;
     } catch (error: any) {
@@ -246,6 +270,20 @@ export class UserService {
 
     await user.save();
     return user;
+  }
+
+  /**
+   * Get referral stats for current user
+   */
+  static async getReferrals(userId: string) {
+    const user = await User.findById(userId);
+    if (!user) throw new AppError("User not found", 404);
+
+    const count = user.referralCode
+      ? await User.countDocuments({ referredBy: user.referralCode })
+      : 0;
+
+    return { referralCode: user.referralCode || null, count };
   }
 
   /**

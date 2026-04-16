@@ -2,13 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import api from "../../../services/api";
-import { 
-  FiUserCheck, 
-  FiMapPin, 
-  FiTruck, 
-  FiHash, 
-  FiCheckCircle 
-} from "react-icons/fi";
+import { FiUserCheck, FiMapPin, FiTruck, FiHash } from "react-icons/fi";
 import { Button } from "../../../components/ui/button";
 
 const Onboarding: React.FC = () => {

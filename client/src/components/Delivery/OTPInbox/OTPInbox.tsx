@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FiInbox, FiPaperclip, FiCheck, FiAlertCircle } from "react-icons/fi";
+import { FiInbox, FiPaperclip, FiCheck } from "react-icons/fi";
 import { useDeliveryStore } from "../../../store/useDeliveryStore";
 import type { DeliveryItem } from "../../../store/useDeliveryStore";
 import StatusBadge from "../StatusBadge/StatusBadge";

@@ -14,7 +14,7 @@ import type { DeliveryItem } from "../../store/useDeliveryStore";
 interface Props {
   deliveries: DeliveryItem[];
   onViewInfo: (id: string) => void;
-  onViewOTP: () => void;
+  onViewOTP: (id: string) => void;
   isOTPExpired: (expiresAt?: string) => boolean;
 }
 
@@ -36,12 +36,12 @@ const VendorDeliveryTable: React.FC<Props> = ({
 }) => {
   if (deliveries.length === 0) {
     return (
-      <div className="text-center py-24 bg-white border border-slate-200 rounded-3xl">
-        <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-6">
-          <FiPackage className="w-10 h-10 text-slate-400" />
+      <div className="text-center py-24 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl">
+        <div className="w-20 h-20 bg-slate-100 dark:bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-6">
+          <FiPackage className="w-10 h-10 text-slate-400 dark:text-slate-500" />
         </div>
-        <h3 className="text-xl font-semibold mb-2">No deliveries yet</h3>
-        <p className="text-slate-500 max-w-sm mx-auto">
+        <h3 className="text-xl font-semibold mb-2 dark:text-slate-100">No deliveries yet</h3>
+        <p className="text-slate-500 dark:text-slate-400 max-w-sm mx-auto">
           Create your first delivery to start shipping with escrow protection.
         </p>
       </div>
@@ -49,10 +49,10 @@ const VendorDeliveryTable: React.FC<Props> = ({
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-3xl overflow-hidden overflow-x-auto">
+    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl overflow-hidden overflow-x-auto">
       <table className="w-full min-w-[800px]">
         <thead>
-          <tr className="border-b border-slate-200 bg-slate-50">
+          <tr className="border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800">
             <th className="px-6 py-5 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">ID</th>
             <th className="px-6 py-5 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Route</th>
             <th className="px-6 py-5 text-left text-xs font-medium text-slate-500 uppercase tracking-wider">Status</th>
@@ -61,7 +61,7 @@ const VendorDeliveryTable: React.FC<Props> = ({
             <th className="px-6 py-5 text-right w-28">Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-slate-200">
+        <tbody className="divide-y divide-slate-200 dark:divide-slate-800">
           {deliveries.map((delivery) => {
             const haulerName = getHaulerName(delivery.haulerId);
             const haulerPhone = getHaulerPhone(delivery.haulerId);
@@ -69,17 +69,17 @@ const VendorDeliveryTable: React.FC<Props> = ({
             const otpExpired = isOTPExpired(delivery.otpExpiresAt);
 
             return (
-              <tr key={delivery._id} className="h-16 hover:bg-slate-50/60 transition-colors">
+              <tr key={delivery._id} className="h-16 hover:bg-slate-50/60 dark:hover:bg-slate-800/50 transition-colors">
                 <td className="px-6 font-mono text-sm text-slate-500">
                   #{delivery._id.slice(-6)}
                 </td>
                 <td className="px-6">
                   <div className="flex flex-col gap-1 text-sm">
-                    <div className="flex items-center gap-2 text-slate-700">
-                      <FiMapPin className="text-blue-600 flex-shrink-0" size={13} />
+                    <div className="flex items-center gap-2 text-slate-700 dark:text-slate-300">
+                      <FiMapPin className="text-blue-600 dark:text-blue-400 flex-shrink-0" size={13} />
                       <span className="truncate max-w-[150px]">{delivery.pickupAddress}</span>
                     </div>
-                    <div className="flex items-center gap-2 text-emerald-600 pl-5">
+                    <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400 pl-5">
                       <FiArrowRight className="flex-shrink-0" size={13} />
                       <span className="truncate max-w-[150px]">{delivery.deliveryAddress}</span>
                     </div>
@@ -97,17 +97,17 @@ const VendorDeliveryTable: React.FC<Props> = ({
                       )}
                     </div>
                   ) : (
-                    <span className="text-slate-400 text-sm">Unassigned</span>
+                    <span className="text-slate-400 dark:text-slate-500 text-sm">Unassigned</span>
                   )}
                 </td>
-                <td className="px-6 font-semibold text-blue-600 text-sm">
-                  {delivery.deliveryFee ? `₦${delivery.deliveryFee.toLocaleString()}` : "—"}
+                <td className="px-6 font-semibold text-blue-600 dark:text-blue-400 text-sm">
+                  {delivery.deliveryFee ? `₦${((delivery.deliveryFee || 0) + (delivery.platformFee || 0)).toLocaleString()}` : "—"}
                 </td>
                 <td className="px-6 text-right">
-                  <div className="flex items-center justify-end gap-1.5 text-slate-400">
+                  <div className="flex items-center justify-end gap-1.5 text-slate-400 dark:text-slate-500">
                     {hasOTP && (
                       <button
-                        onClick={onViewOTP}
+                        onClick={() => onViewOTP(delivery._id)}
                         className={`p-2 rounded-xl transition-colors ${
                           delivery.isLocked
                             ? "bg-red-600 text-white animate-pulse"

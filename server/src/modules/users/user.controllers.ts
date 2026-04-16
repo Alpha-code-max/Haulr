@@ -182,4 +182,18 @@ export class UserController {
       next(error);
     }
   }
+
+  static async getReferrals(
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) {
+    try {
+      const userId = req.user!.id;
+      const data = await UserService.getReferrals(userId);
+      res.status(200).json(data);
+    } catch (error) {
+      next(error);
+    }
+  }
 }
