@@ -1,25 +1,20 @@
 import React from "react";
-import { Button } from "./ui/button";
-
-interface User {
-  _id: string;
-  name: string;
-  role: string;
-  kycStatus: string;
-}
+import type { AdminUser } from "../store/useAdminStore";
 
 interface NewRegistrationsFeedProps {
-  users: User[];
+  users: AdminUser[];
+  onViewAll?: () => void;
 }
 
 const ROLE_COLORS: Record<string, string> = {
-  hauler: "bg-amber-500/20 text-amber-400",
-  vendor: "bg-blue-500/20 text-blue-400",
-  customer: "bg-emerald-500/20 text-emerald-400",
-  admin: "bg-violet-500/20 text-violet-400",
+  hauler:      "bg-amber-500/20 text-amber-400",
+  vendor:      "bg-blue-500/20 text-blue-400",
+  customer:    "bg-emerald-500/20 text-emerald-400",
+  admin:       "bg-violet-500/20 text-violet-400",
+  super_admin: "bg-rose-500/20 text-rose-400",
 };
 
-const NewRegistrationsFeed: React.FC<NewRegistrationsFeedProps> = ({ users }) => (
+const NewRegistrationsFeed: React.FC<NewRegistrationsFeedProps> = ({ users, onViewAll }) => (
   <div className="bg-[#161b22] border border-[#21262d] rounded-xl p-4 space-y-1">
     {users.length === 0 ? (
       <p className="text-slate-600 text-sm text-center py-6">No recent registrations</p>
@@ -34,16 +29,22 @@ const NewRegistrationsFeed: React.FC<NewRegistrationsFeedProps> = ({ users }) =>
           </div>
           <div>
             <p className="text-sm font-semibold text-slate-300">{u.name}</p>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600">{u.role}</p>
+            <p className="text-[10px] font-bold uppercase tracking-widest text-slate-600">{u.role.replace("_", " ")}</p>
           </div>
         </div>
-        <div className={`w-2 h-2 rounded-full ${u.kycStatus === "verified" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`} title={u.kycStatus} />
+        <div
+          className={`w-2 h-2 rounded-full ${u.kycStatus === "verified" ? "bg-emerald-500" : "bg-amber-500 animate-pulse"}`}
+          title={u.kycStatus || "unverified"}
+        />
       </div>
     ))}
     <div className="pt-2">
-      <Button variant="ghost" className="w-full h-9 text-xs font-semibold text-slate-500 hover:text-slate-300">
-        View all accounts
-      </Button>
+      <button
+        onClick={onViewAll}
+        className="w-full h-9 text-xs font-semibold text-slate-500 hover:text-slate-300 transition-colors rounded-lg hover:bg-[#1c2128]"
+      >
+        View all accounts →
+      </button>
     </div>
   </div>
 );

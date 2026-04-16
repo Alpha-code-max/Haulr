@@ -50,8 +50,8 @@ const steps = [
 const LandingPage: React.FC = () => {
   const { isAuthenticated, user } = useAuthStore();
 
-  // Admin users belong in the separate admin app — let them see the landing page
-  if (isAuthenticated && user && user.role !== "admin") {
+  // Admin/super_admin users belong in the separate admin app — let them see the landing page
+  if (isAuthenticated && user && user.role !== "admin" && user.role !== "super_admin") {
     return <Navigate to={`/${user.role}`} replace />;
   }
 

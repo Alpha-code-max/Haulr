@@ -1,6 +1,43 @@
 import { create } from "zustand";
 import api from "../services/api";
 
+export interface AdminUser {
+  _id: string;
+  name: string;
+  email: string;
+  phone?: string;
+  role: string;
+  kycStatus?: string;
+  createdAt?: string;
+  avatar?: string;
+  nin?: string;
+  vehicleType?: string;
+  vehiclePlate?: string;
+  bankDetails?: {
+    bankName: string;
+    accountNumber: string;
+    accountName?: string;
+  };
+}
+
+export interface AdminDelivery {
+  _id: string;
+  pickupAddress: string;
+  deliveryAddress: string;
+  status: string;
+  deliveryFee?: number;
+  platformFee?: number;
+  itemDescription?: string;
+  itemWeight?: string;
+  referenceImage?: string;
+  podImage?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  vendorId?: { _id: string; name: string; phone?: string };
+  customerId?: { _id: string; name: string; phone?: string };
+  haulerId?: { _id: string; name: string; phone?: string };
+}
+
 interface AdminStats {
   users: number;
   deliveries: number;
@@ -10,20 +47,23 @@ interface AdminStats {
 }
 
 interface ActivityFeed {
-  recentUsers: any[];
-  recentDeliveries: any[];
+  recentUsers: AdminUser[];
+  recentDeliveries: AdminDelivery[];
 }
 
 interface AdminState {
   stats: AdminStats | null;
   activities: ActivityFeed | null;
-  users: any[];
-  deliveries: any[];
+  users: AdminUser[];
+  deliveries: AdminDelivery[];
   isLoading: boolean;
+  usersLoading: boolean;
+  deliveriesLoading: boolean;
   error: string | null;
   fetchDashboardData: () => Promise<void>;
   fetchAllUsers: () => Promise<void>;
   fetchAllDeliveries: () => Promise<void>;
+  promoteUser: (email: string, role: "admin" | "super_admin") => Promise<void>;
 }
 
 export const useAdminStore = create<AdminState>((set) => ({
@@ -32,6 +72,8 @@ export const useAdminStore = create<AdminState>((set) => ({
   users: [],
   deliveries: [],
   isLoading: false,
+  usersLoading: false,
+  deliveriesLoading: false,
   error: null,
 
   fetchDashboardData: async () => {
@@ -47,26 +89,35 @@ export const useAdminStore = create<AdminState>((set) => ({
   },
 
   fetchAllUsers: async () => {
-    set({ isLoading: true, error: null });
+    set({ usersLoading: true, error: null });
     try {
       const { data } = await api.get("/admin/users");
       set({ users: data });
     } catch (err: any) {
       set({ error: err.response?.data?.message || "Failed to fetch users" });
     } finally {
-      set({ isLoading: false });
+      set({ usersLoading: false });
     }
   },
 
   fetchAllDeliveries: async () => {
-    set({ isLoading: true, error: null });
+    set({ deliveriesLoading: true, error: null });
     try {
       const { data } = await api.get("/admin/deliveries");
       set({ deliveries: data });
     } catch (err: any) {
       set({ error: err.response?.data?.message || "Failed to fetch deliveries" });
     } finally {
-      set({ isLoading: false });
+      set({ deliveriesLoading: false });
     }
+  },
+
+  promoteUser: async (email, role) => {
+    const { data } = await api.patch("/admin/promote", { email, role });
+    set((state) => ({
+      users: state.users.map((u) =>
+        u.email === email ? { ...u, role: data.role } : u
+      ),
+    }));
   },
 }));

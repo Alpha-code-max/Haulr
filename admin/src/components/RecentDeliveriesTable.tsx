@@ -1,21 +1,14 @@
 import React from "react";
 import { FiArrowUpRight, FiImage } from "react-icons/fi";
 import StatusBadge from "./Delivery/StatusBadge";
-
-interface Delivery {
-  _id: string;
-  pickupAddress: string;
-  status: string;
-  vendorId?: { name?: string };
-  referenceImage?: string;
-  podImage?: string;
-}
+import type { AdminDelivery } from "../store/useAdminStore";
 
 interface RecentDeliveriesTableProps {
-  deliveries: Delivery[];
+  deliveries: AdminDelivery[];
+  onInspect?: (delivery: AdminDelivery) => void;
 }
 
-const RecentDeliveriesTable: React.FC<RecentDeliveriesTableProps> = ({ deliveries }) => (
+const RecentDeliveriesTable: React.FC<RecentDeliveriesTableProps> = ({ deliveries, onInspect }) => (
   <div className="bg-[#161b22] border border-[#21262d] rounded-xl overflow-hidden">
     <div className="overflow-x-auto">
       <table className="w-full text-sm">
@@ -66,7 +59,10 @@ const RecentDeliveriesTable: React.FC<RecentDeliveriesTableProps> = ({ deliverie
                 </div>
               </td>
               <td className="px-5 py-4 text-right">
-                <button className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-lg text-[11px] font-semibold uppercase tracking-wider transition-colors">
+                <button
+                  onClick={() => onInspect?.(delivery)}
+                  className="inline-flex items-center gap-1 px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 rounded-lg text-[11px] font-semibold uppercase tracking-wider transition-colors"
+                >
                   Inspect <FiArrowUpRight className="w-3 h-3" />
                 </button>
               </td>
