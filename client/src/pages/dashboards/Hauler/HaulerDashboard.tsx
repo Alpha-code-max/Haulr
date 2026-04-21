@@ -1,30 +1,34 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { FiTruck, FiActivity, FiShoppingBag, FiClock } from "react-icons/fi";
+import React, { useState, useEffect, useMemo, useRef } from "react";
+import { FiTruck, FiActivity, FiShoppingBag, FiClock, FiTrendingUp } from "react-icons/fi";
 import ActiveDeliveriesSection from "../../../components/Hauler/ActiveDeliveriesSection";
 import AvailableDeliveriesMarket from "../../../components/Hauler/AvailableDeliveriesMarket";
 import DeliveryHistorySection from "../../../components/Hauler/DeliveryHistorySection";
 import HaulerEarningsWidget from "../../../components/Hauler/HaulerEarningsWidget";
 import HaulerDeliveryInfoModal from "../../../components/Hauler/HaulerDeliveryInfoModal";
+import HaulerFullDetailsModal from "../../../components/Hauler/HaulerFullDetailsModal";
 import HaulerOTPModal from "../../../components/Hauler/HaulerOTPModal";
 import HaulerSuccessModal from "../../../components/Hauler/HaulerSuccessModal";
 import AcceptDeliveryForm from "../../../components/Delivery/AcceptDeliveryForm/AcceptDeliveryForm";
 import BankMethodModal from "../../../components/Wallet/BankMethodModal";
 import ChatInterface from "../../../components/Chat/ChatInterface";
+import EarningsAnalytics from "../../../components/Analytics/EarningsAnalytics";
 import { useDeliveryStore } from "../../../store/useDeliveryStore";
 import { useWalletStore } from "../../../store/useWalletStore";
+import { useNotificationStore } from "../../../store/useNotificationStore";
 import { Dialog, DialogContent } from "../../../components/ui/dialog";
 
 const HaulerDashboard: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<"active" | "market" | "history">("active");
+  const [activeTab, setActiveTab] = useState<"active" | "market" | "history" | "analytics">("active");
   const [earningsView, setEarningsView] = useState<"cleared" | "escrow">("cleared");
   const [selectedDelivery, setSelectedDelivery] = useState<string | null>(null);
   const [chatDeliveryId, setChatDeliveryId] = useState<string | null>(null);
   const [otpModalDeliveryId, setOtpModalDeliveryId] = useState<string | null>(null);
   const [infoModalDeliveryId, setInfoModalDeliveryId] = useState<string | null>(null);
+  const [fullDetailsId, setFullDetailsId] = useState<string | null>(null);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
 
-  const { deliveries, availableDeliveries, fetchAvailable, fetchMyDeliveries } = useDeliveryStore();
+  const { deliveries, availableDeliveries, fetchAvailable, fetchMyDeliveries, updateLocation } = useDeliveryStore();
   const { wallet, transactions, fetchWallet, fetchTransactions } = useWalletStore();
 
   useEffect(() => {
@@ -38,6 +42,29 @@ const HaulerDashboard: React.FC = () => {
     () => deliveries.filter((d) => ["paid", "picked_up", "in_transit"].includes(d.status)),
     [deliveries]
   );
+
+  // Live GPS tracking: broadcast location every 15s for in_transit deliveries
+  useEffect(() => {
+    if (!navigator.geolocation) return;
+    const inTransit = activeTransits.filter((d) => d.status === "in_transit");
+    if (inTransit.length === 0) return;
+
+    const send = () => {
+      navigator.geolocation.getCurrentPosition(
+        ({ coords }) => {
+          inTransit.forEach((d) =>
+            updateLocation(d._id, coords.latitude, coords.longitude)
+          );
+        },
+        () => {},
+        { enableHighAccuracy: true, timeout: 8000 }
+      );
+    };
+
+    send();
+    const interval = setInterval(send, 15_000);
+    return () => clearInterval(interval);
+  }, [activeTransits, updateLocation]);
   const historyDeliveries = useMemo(
     () => deliveries.filter((d) => ["delivered", "cancelled"].includes(d.status)),
     [deliveries]
@@ -58,14 +85,51 @@ const HaulerDashboard: React.FC = () => {
   const currentInfoDelivery = infoModalDeliveryId
     ? [...deliveries, ...availableDeliveries].find((d) => d._id === infoModalDeliveryId) ?? null
     : null;
+
+  const currentFullDetailDelivery = fullDetailsId
+    ? [...deliveries, ...availableDeliveries].find((d) => d._id === fullDetailsId) ?? null
+    : null;
+
   const otpDelivery = otpModalDeliveryId
     ? deliveries.find((d) => d._id === otpModalDeliveryId)
     : undefined;
+
+  const { addNotification } = useNotificationStore();
+  const prevDeliveryStatusRef = useRef<Record<string, string>>({});
+
+  // Auto-generate in-app notifications on delivery status changes
+  useEffect(() => {
+    const prev = prevDeliveryStatusRef.current;
+    deliveries.forEach((d) => {
+      const prevStatus = prev[d._id];
+      if (prevStatus && prevStatus !== d.status) {
+        const messages: Record<string, string> = {
+          paid: "Payment received — ready for pickup.",
+          picked_up: "Package marked as picked up.",
+          in_transit: "Delivery is now in transit.",
+          delivered: "Delivery confirmed! Earnings are in escrow.",
+          cancelled: "A delivery was cancelled.",
+        };
+        const msg = messages[d.status];
+        if (msg) {
+          addNotification({
+            type: "delivery",
+            title: `Delivery #${d._id.slice(-6)} Updated`,
+            message: msg,
+            deliveryId: d._id,
+          });
+        }
+      }
+      prev[d._id] = d.status;
+    });
+    prevDeliveryStatusRef.current = prev;
+  }, [deliveries, addNotification]);
 
   const tabs = [
     { id: "active" as const, label: "Active Transits", Icon: FiActivity, count: activeTransits.length, activeColor: "text-blue-600" },
     { id: "market" as const, label: "Marketplace", Icon: FiShoppingBag, count: availableDeliveries.length, activeColor: "text-emerald-600" },
     { id: "history" as const, label: "History", Icon: FiClock, count: historyDeliveries.length, activeColor: "text-purple-600" },
+    { id: "analytics" as const, label: "Analytics", Icon: FiTrendingUp, count: null, activeColor: "text-amber-600" },
   ];
 
   return (
@@ -109,7 +173,7 @@ const HaulerDashboard: React.FC = () => {
                 }`}
               >
                 <Icon size={15} />
-                {label} ({count})
+                {label}{count !== null ? ` (${count})` : ""}
               </button>
             ))}
           </div>
@@ -121,17 +185,27 @@ const HaulerDashboard: React.FC = () => {
             <AvailableDeliveriesMarket
               deliveries={availableDeliveries}
               onSelectDelivery={setSelectedDelivery}
+              onViewInfo={setInfoModalDeliveryId}
+              onViewFullDetails={setFullDetailsId}
             />
           )}
           {activeTab === "active" && (
             <ActiveDeliveriesSection
               deliveries={activeTransits}
               onViewInfo={setInfoModalDeliveryId}
+              onViewFullDetails={setFullDetailsId}
               onBrowseMarket={() => setActiveTab("market")}
             />
           )}
           {activeTab === "history" && (
-            <DeliveryHistorySection deliveries={historyDeliveries} />
+            <DeliveryHistorySection
+              deliveries={historyDeliveries}
+              onViewInfo={setInfoModalDeliveryId}
+              onViewFullDetails={setFullDetailsId}
+            />
+          )}
+          {activeTab === "analytics" && (
+            <EarningsAnalytics transactions={transactions} deliveries={deliveries} />
           )}
         </section>
       </div>
@@ -144,6 +218,12 @@ const HaulerDashboard: React.FC = () => {
         onChat={(id) => setChatDeliveryId(id)}
         onVerifyOTP={(id) => setOtpModalDeliveryId(id)}
         onAccept={(id) => setSelectedDelivery(id)}
+      />
+
+      <HaulerFullDetailsModal
+        delivery={currentFullDetailDelivery}
+        open={!!fullDetailsId}
+        onClose={() => setFullDetailsId(null)}
       />
 
       <HaulerOTPModal

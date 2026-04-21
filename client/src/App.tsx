@@ -15,6 +15,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import LandingPage from "./pages/LandingPage/LandingPage";
 import VendorWallet from "./pages/dashboards/Vendor/VendorWallet";
 import Profile from "./pages/dashboards/Profile/Profile";
+import AdminDashboard from "./pages/dashboards/Admin/AdminDashboard";
 
 function App() {
   const { checkAuth, isLoading, isAuthenticated, user } = useAuthStore();
@@ -41,8 +42,7 @@ function App() {
       }
     }
 
-    // Admin/super_admin users belong in the separate admin app, not the client
-    if (user.role === "admin" || user.role === "super_admin") return "/";
+    if (user.role === "admin" || user.role === "super_admin") return "/admin";
 
     return `/${user.role}`;
   };
@@ -76,6 +76,10 @@ function App() {
 
           <Route element={<ProtectedRoute allowedRoles={["vendor", "hauler", "customer", "admin", "super_admin"]} />}>
             <Route path="profile" element={<Profile />} />
+          </Route>
+
+          <Route element={<ProtectedRoute allowedRoles={["admin", "super_admin"]} />}>
+            <Route path="admin" element={<AdminDashboard />} />
           </Route>
         </Route>
       </Routes>

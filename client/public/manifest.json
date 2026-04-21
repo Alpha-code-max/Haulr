@@ -1,0 +1,37 @@
+{
+  "name": "Haulr - Delivery Logistics",
+  "short_name": "Haulr",
+  "description": "Connecting vendors, haulers, and customers for seamless delivery logistics.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/manifest-icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/manifest-icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["logistics", "business", "productivity"],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "url": "/hauler",
+      "description": "Open hauler dashboard"
+    },
+    {
+      "name": "Marketplace",
+      "url": "/hauler",
+      "description": "Browse available deliveries"
+    }
+  ]
+}

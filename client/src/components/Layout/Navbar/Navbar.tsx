@@ -12,6 +12,7 @@ import {
   FiMoon
 } from "react-icons/fi";
 import HelpModal from "../../Help/HelpModal";
+import NotificationCenter from "../../Notifications/NotificationCenter";
 
 const Navbar: React.FC = () => {
   const { user, logout } = useAuthStore();
@@ -48,6 +49,9 @@ const Navbar: React.FC = () => {
 
             {user && (
               <>
+                {/* Notification Center */}
+                <NotificationCenter />
+
                 {/* Help & Support */}
                 <button
                   onClick={() => setIsHelpOpen(true)}

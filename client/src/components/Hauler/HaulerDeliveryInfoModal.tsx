@@ -1,9 +1,11 @@
-import React from "react";
+import React, { Suspense, lazy } from "react";
 import { FiMapPin, FiArrowRight, FiPackage, FiMessageCircle, FiSlash } from "react-icons/fi";
 import { Button } from "../ui/button";
 import { Dialog, DialogContent, DialogTitle, DialogHeader } from "../ui/dialog";
 import { useDeliveryStore } from "../../store/useDeliveryStore";
 import type { DeliveryItem } from "../../store/useDeliveryStore";
+
+const DeliveryMap = lazy(() => import("../Map/DeliveryMap"));
 
 interface Props {
   delivery: DeliveryItem | null;
@@ -56,6 +58,15 @@ const HaulerDeliveryInfoModal: React.FC<Props> = ({
               </div>
             </div>
           </div>
+
+          {/* Live tracking map */}
+          <Suspense fallback={<div className="h-44 bg-slate-100 dark:bg-slate-800 rounded-2xl animate-pulse" />}>
+            <DeliveryMap
+              currentLocation={delivery.currentLocation}
+              pickupAddress={delivery.pickupAddress}
+              deliveryAddress={delivery.deliveryAddress}
+            />
+          </Suspense>
 
           <div className="p-4 bg-blue-50/50 dark:bg-blue-900/20 rounded-2xl flex items-center justify-between">
             <div>
