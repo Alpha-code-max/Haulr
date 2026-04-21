@@ -4,7 +4,7 @@ import {
   FiKey, FiMessageCircle, FiDollarSign, FiUserCheck,
   FiLock, FiPackage, FiStar, FiCreditCard, FiAlertOctagon,
   FiNavigation, FiCpu, FiBarChart2, FiUsers, FiBox,
-  FiCheckCircle, FiClock, FiZap, FiRefreshCw,
+  FiCheckCircle, FiClock, FiZap, FiRotateCw,
 } from "react-icons/fi";
 import { useAuthStore } from "../../store/useAuthStore";
 import HaulrAdvantages from "../../components/Landing/HaulrAdvantages";
@@ -119,7 +119,7 @@ const steps = [
 const vendorBenefits = [
   { icon: FiLock, text: "Funds locked in escrow until delivery is proven" },
   { icon: FiAlertOctagon, text: "OTP lockout after 3 failed hauler attempts" },
-  { icon: FiRefreshCw, text: "Regenerate expired OTPs from your dashboard" },
+  { icon: FiRotateCw, text: "Regenerate expired OTPs from your dashboard" },
   { icon: FiNavigation, text: "Watch your package move on a live map" },
   { icon: FiMessageCircle, text: "Chat directly with your hauler per delivery" },
   { icon: FiStar, text: "Rate haulers to surface the best in the network" },

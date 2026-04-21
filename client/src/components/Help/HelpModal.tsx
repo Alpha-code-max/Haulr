@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
   FiBox, FiTruck, FiShield, FiDollarSign, FiKey, FiCheckCircle,
-  FiArrowRight, FiHelpCircle, FiMapPin, FiRefreshCw, FiAlertTriangle,
+  FiArrowRight, FiHelpCircle, FiMapPin, FiRotateCw, FiAlertTriangle,
   FiClock, FiPhone, FiZap, FiInfo, FiChevronDown, FiLock,
   FiStar, FiPackage, FiActivity
 } from "react-icons/fi";
@@ -166,7 +166,7 @@ const HelpModal: React.FC<Props> = ({ isOpen, onClose, defaultTab = "vendor" }) 
                 <SectionHeader n={3} title="OTP Management & Issues" color="border-purple-500" />
                 <div className="space-y-3">
                   <div className="flex gap-3 p-4 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-2xl">
-                    <FiRefreshCw className="text-purple-500 shrink-0 mt-0.5" size={16} />
+                    <FiRotateCw className="text-purple-500 shrink-0 mt-0.5" size={16} />
                     <div>
                       <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200">Regenerating a Lost OTP</h4>
                       <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
