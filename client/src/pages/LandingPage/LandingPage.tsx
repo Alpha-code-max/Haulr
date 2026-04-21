@@ -1,10 +1,10 @@
 import { Link, Navigate } from "react-router-dom";
 import {
-  FiTruck, FiArrowRight, FiCheck, FiShield, FiMapPin,
+  FiTruck, FiArrowRight, FiCheck, FiShield,
   FiKey, FiMessageCircle, FiDollarSign, FiUserCheck,
   FiLock, FiPackage, FiStar, FiCreditCard, FiAlertOctagon,
   FiNavigation, FiCpu, FiBarChart2, FiUsers, FiBox,
-  FiCheckCircle, FiClock, FiZap,
+  FiCheckCircle, FiClock, FiZap, FiRefreshCw,
 } from "react-icons/fi";
 import { useAuthStore } from "../../store/useAuthStore";
 import HaulrAdvantages from "../../components/Landing/HaulrAdvantages";
@@ -133,27 +133,6 @@ const haulerBenefits = [
   { icon: FiShield, text: "Escrow protects your earnings — vendors can't withhold" },
   { icon: FiUsers, text: "Build a rating that attracts higher-value jobs" },
 ];
-
-// ── HELPER COMPONENTS ────────────────────────────────────────────────────────
-
-const FiRefreshCw = ({ size, className }: { size?: number; className?: string }) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    width={size ?? 16}
-    height={size ?? 16}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="2"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-    className={className}
-  >
-    <polyline points="23 4 23 10 17 10" />
-    <polyline points="1 20 1 14 7 14" />
-    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
-  </svg>
-);
 
 // ── PAGE ─────────────────────────────────────────────────────────────────────
 
