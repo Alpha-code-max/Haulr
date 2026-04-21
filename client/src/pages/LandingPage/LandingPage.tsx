@@ -8,6 +8,7 @@ import {
   FiCheck,
 } from "react-icons/fi";
 import { useAuthStore } from "../../store/useAuthStore";
+import HaulrAdvantages from "../../components/Landing/HaulrAdvantages";
 
 const features = [
   {
@@ -200,6 +201,9 @@ const LandingPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      {/* Haulr vs Traditional Haulage */}
+      <HaulrAdvantages />
 
       {/* Footer */}
       <footer className="border-t border-slate-100 dark:border-slate-800 py-8">
