@@ -31,6 +31,16 @@ const HaulerDashboard: React.FC = () => {
   const { deliveries, availableDeliveries, fetchAvailable, fetchMyDeliveries, updateLocation } = useDeliveryStore();
   const { wallet, transactions, fetchWallet, fetchTransactions } = useWalletStore();
 
+  const activeTransits = useMemo(
+    () => deliveries.filter((d) => ["paid", "picked_up", "in_transit"].includes(d.status)),
+    [deliveries]
+  );
+
+  const historyDeliveries = useMemo(
+    () => deliveries.filter((d) => ["delivered", "cancelled"].includes(d.status)),
+    [deliveries]
+  );
+
   useEffect(() => {
     fetchAvailable();
     fetchMyDeliveries();
@@ -38,15 +48,10 @@ const HaulerDashboard: React.FC = () => {
     fetchTransactions();
   }, [fetchAvailable, fetchMyDeliveries, fetchWallet, fetchTransactions]);
 
-  const activeTransits = useMemo(
-    () => deliveries.filter((d) => ["paid", "picked_up", "in_transit"].includes(d.status)),
-    [deliveries]
-  );
-
   // Live GPS tracking: broadcast location every 15s for in_transit deliveries
   useEffect(() => {
     if (!navigator.geolocation) return;
-    const inTransit = activeTransits.filter((d) => d.status === "in_transit");
+    const inTransit = deliveries.filter((d) => d.status === "in_transit");
     if (inTransit.length === 0) return;
 
     const send = () => {
@@ -64,11 +69,8 @@ const HaulerDashboard: React.FC = () => {
     send();
     const interval = setInterval(send, 15_000);
     return () => clearInterval(interval);
-  }, [activeTransits, updateLocation]);
-  const historyDeliveries = useMemo(
-    () => deliveries.filter((d) => ["delivered", "cancelled"].includes(d.status)),
-    [deliveries]
-  );
+  }, [deliveries, updateLocation]);
+
   const clearedEarnings = useMemo(() => wallet?.balance || 0, [wallet]);
   const settlingEarnings = useMemo(
     () =>
