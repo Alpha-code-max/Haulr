@@ -1,4 +1,4 @@
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import crypto from "crypto";
 import { User } from "./user.models";
 import type { CreateUserDTO, LoginDTO, VendorOnboardDTO, HaulerOnboardDTO, UpdateProfileDTO } from "./user.types";

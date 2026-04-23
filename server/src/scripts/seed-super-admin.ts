@@ -4,7 +4,7 @@
  * Usage: npm run seed:super-admin -- --password="YourSecurePassword"
  */
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import "dotenv/config";
 import { connectDB } from "../config/database";
 import { User } from "../modules/users/user.models";
