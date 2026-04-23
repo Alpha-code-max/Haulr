@@ -5,7 +5,7 @@ import {
 } from "react-icons/fi";
 
 interface Advantage {
-  icon: React.ReactNode;
+  icon: React.ElementType;
   title: string;
   haulr: string;
   traditional: string;
@@ -14,56 +14,56 @@ interface Advantage {
 
 const advantages: Advantage[] = [
   {
-    icon: <FiLock />,
+    icon: FiLock,
     title: "Payment Security",
     haulr: "Funds held in double-locked escrow. Haulers are paid only after OTP confirmation by the recipient — zero fraud risk.",
     traditional: "Cash on delivery or upfront bank transfers. Theft, non-payment, and disputes are common with no dispute resolution.",
     highlight: "Escrow-protected",
   },
   {
-    icon: <FiMapPin />,
+    icon: FiMapPin,
     title: "Live Tracking",
     haulr: "Real-time GPS tracking every 15 seconds. Vendors and customers see exactly where the package is at all times.",
     traditional: "You call the driver and hope for an update. No visibility, no accountability, and no way to plan around ETAs.",
     highlight: "Live GPS map",
   },
   {
-    icon: <FiCheckCircle />,
+    icon: FiCheckCircle,
     title: "Delivery Verification",
     haulr: "Unique 6-digit OTP generated per delivery. Only the correct recipient can release the hauler's payment — proof of delivery guaranteed.",
     traditional: "Driver says it's delivered. There's no verifiable record of who received what, when, or whether it was the right person.",
     highlight: "OTP-verified",
   },
   {
-    icon: <FiStar />,
+    icon: FiStar,
     title: "Accountability & Ratings",
     haulr: "Haulers are KYC-verified with NIN and vehicle checks. Post-delivery ratings build a trust score that's visible to vendors.",
     traditional: "Random phone contacts or roadside drivers. No background checks, no history, no way to assess reliability.",
     highlight: "KYC + ratings",
   },
   {
-    icon: <FiDollarSign />,
+    icon: FiDollarSign,
     title: "Transparent Pricing",
     haulr: "Haulers quote their fee upfront. Vendors approve before any money moves. No surprise charges, no price inflation mid-journey.",
     traditional: "Pricing is negotiated verbally, often changes in transit. Extra charges appear without notice and are hard to dispute.",
     highlight: "Agreed upfront",
   },
   {
-    icon: <FiZap />,
+    icon: FiZap,
     title: "Speed of Operations",
     haulr: "Post a delivery in under 2 minutes. Haulers bid within minutes. The entire logistics chain is automated and frictionless.",
     traditional: "Finding a trusted driver takes calls, WhatsApp groups, and referrals. Arranging payment adds more back-and-forth delays.",
     highlight: "2-min setup",
   },
   {
-    icon: <FiPhone />,
+    icon: FiPhone,
     title: "In-App Communication",
     haulr: "Built-in chat between vendor and hauler on every delivery. All messages tied to a specific job — no confusion, no lost context.",
     traditional: "Personal phone calls and WhatsApp messages scattered across contacts. No record of what was agreed, leading to disputes.",
     highlight: "Integrated chat",
   },
   {
-    icon: <FiShield />,
+    icon: FiShield,
     title: "Dispute Resolution",
     haulr: "Every transaction is logged with timestamps, GPS history, and OTP records. Support can investigate and resolve disputes with evidence.",
     traditional: "Word against word. No transaction trail means disputes are nearly impossible to resolve fairly or quickly.",
@@ -135,7 +135,7 @@ const HaulrAdvantages: React.FC = () => {
                     <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${
                       isOpen ? "bg-blue-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500"
                     }`}>
-                      {adv.icon}
+                      <adv.icon />
                     </div>
                     <div className="text-left">
                       <p className="font-bold text-sm text-slate-800 dark:text-slate-200">{adv.title}</p>
@@ -174,7 +174,7 @@ const HaulrAdvantages: React.FC = () => {
                   {/* Feature label */}
                   <div className="p-5 flex items-center gap-3">
                     <div className="w-9 h-9 rounded-xl bg-blue-600 text-white flex items-center justify-center shrink-0">
-                      {adv.icon}
+                      <adv.icon />
                     </div>
                     <div>
                       <p className="font-bold text-sm text-slate-800 dark:text-slate-200">{adv.title}</p>

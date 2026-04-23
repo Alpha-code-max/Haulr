@@ -7,10 +7,11 @@ import type { DeliveryItem } from "../../store/useDeliveryStore";
 interface Props {
   deliveries: DeliveryItem[];
   onViewInfo: (id: string) => void;
+  onViewFullDetails: (id: string) => void;
   onBrowseMarket: () => void;
 }
 
-const ActiveDeliveriesSection: React.FC<Props> = ({ deliveries, onViewInfo, onBrowseMarket }) => {
+const ActiveDeliveriesSection: React.FC<Props> = ({ deliveries, onViewInfo, onViewFullDetails, onBrowseMarket }) => {
   const getCustomerInfo = (delivery: DeliveryItem) =>
     typeof delivery.customerId === "object" ? delivery.customerId : null;
 
@@ -42,7 +43,11 @@ const ActiveDeliveriesSection: React.FC<Props> = ({ deliveries, onViewInfo, onBr
           {deliveries.map((delivery) => {
             const customer = getCustomerInfo(delivery);
             return (
-              <tr key={delivery._id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 transition-colors group">
+              <tr 
+                key={delivery._id} 
+                onClick={() => onViewFullDetails(delivery._id)}
+                className="hover:bg-slate-50/50 dark:hover:bg-slate-800/50 cursor-pointer transition-colors group"
+              >
                 <td className="px-8 py-6 font-mono text-sm text-slate-400">#{delivery._id.slice(-6)}</td>
                 <td className="px-8 py-6">
                   <div className="flex items-center gap-3 flex-wrap">
@@ -60,11 +65,12 @@ const ActiveDeliveriesSection: React.FC<Props> = ({ deliveries, onViewInfo, onBr
                 <td className="px-8 py-6 font-mono font-bold text-emerald-600 dark:text-emerald-400">
                   ₦{delivery.deliveryFee?.toLocaleString() || "—"}
                 </td>
-                <td className="px-8 py-6 text-right">
+                <td className="px-8 py-6 text-right" onClick={(e) => e.stopPropagation()}>
                   <Button
                     onClick={() => onViewInfo(delivery._id)}
                     variant="ghost"
-                    className="rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white transition-all shadow-none"
+                    className="rounded-xl hover:bg-blue-50 dark:hover:bg-blue-900/30 text-blue-600 dark:text-blue-400 transition-all shadow-none"
+                    title="Quick Overview"
                   >
                     <FiEye size={18} />
                   </Button>
