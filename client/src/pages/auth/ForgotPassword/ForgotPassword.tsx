@@ -18,7 +18,7 @@ const ForgotPassword: React.FC = () => {
 
   const { forgotPassword } = useAuthStore();
   const navigate = useNavigate();
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);

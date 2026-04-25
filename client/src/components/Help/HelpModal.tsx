@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Dialog, DialogContent } from "../ui/dialog";
 import {
   FiBox, FiTruck, FiShield, FiDollarSign, FiKey, FiCheckCircle,
-  FiArrowRight, FiHelpCircle, FiMapPin, FiRotateCw, FiAlertTriangle,
+  FiHelpCircle, FiMapPin, FiRotateCw, FiAlertTriangle,
   FiClock, FiPhone, FiZap, FiInfo, FiChevronDown, FiLock,
-  FiStar, FiPackage, FiActivity
+  FiPackage, FiActivity
 } from "react-icons/fi";
 
 interface Props {

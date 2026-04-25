@@ -17,7 +17,7 @@ const ResetPassword: React.FC = () => {
   const [step, setStep] = useState<1 | 2>(1);
 
   const { resetPassword, isLoading } = useAuthStore();
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);

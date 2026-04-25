@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   FiCreditCard,
   FiPlusCircle,
@@ -34,7 +34,7 @@ const WalletCard: React.FC = () => {
   const [showFundInput, setShowFundInput] = useState(false);
   const [showTransactions, setShowTransactions] = useState(false);
   const [fundSuccess, setFundSuccess] = useState("");
-  const fundSuccessTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const fundSuccessTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(fundSuccessTimerRef.current);

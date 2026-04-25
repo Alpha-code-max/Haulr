@@ -3,7 +3,7 @@ import { Link, Navigate } from "react-router-dom";
 import {
   FiTruck, FiArrowRight, FiCheck, FiShield,
   FiKey, FiMessageCircle, FiDollarSign, FiUserCheck,
-  FiLock, FiPackage, FiStar, FiCreditCard, FiAlertOctagon,
+  FiLock, FiStar, FiCreditCard, FiAlertOctagon,
   FiNavigation, FiCpu, FiBarChart2, FiUsers, FiBox,
   FiCheckCircle, FiClock, FiZap, FiRotateCw,
 } from "react-icons/fi";

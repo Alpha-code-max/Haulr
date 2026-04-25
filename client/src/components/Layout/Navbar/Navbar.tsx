@@ -6,9 +6,8 @@ import { useWalletStore } from "../../../store/useWalletStore";
 import { useDeliveryStore } from "../../../store/useDeliveryStore";
 import {
   FiLogOut, FiTruck, FiUser, FiDollarSign, FiHelpCircle,
-  FiSun, FiMoon, FiMenu, FiX, FiActivity, FiShoppingBag,
-  FiShield, FiPackage, FiClock, FiTrendingUp, FiChevronDown,
-  FiSettings,
+  FiSun, FiMoon, FiMenu, FiX, FiActivity,
+  FiShield, FiPackage, FiChevronDown,
 } from "react-icons/fi";
 import HelpModal from "../../Help/HelpModal";
 import NotificationCenter from "../../Notifications/NotificationCenter";

@@ -24,7 +24,7 @@ const BankMethodModal: React.FC<BankMethodModalProps> = ({ isOpen, onClose, bala
   const [isSaving, setIsSaving] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
-  const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = React.useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   React.useEffect(() => {
     return () => clearTimeout(timerRef.current);

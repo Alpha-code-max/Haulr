@@ -55,8 +55,8 @@ const Profile: React.FC = () => {
 
   const [stats, setStats] = useState({ deliveries: 0, rating: 0, earnings: 0 });
 
-  const successTimerRef = useRef<ReturnType<typeof setTimeout>>();
-  const copyTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const successTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => {

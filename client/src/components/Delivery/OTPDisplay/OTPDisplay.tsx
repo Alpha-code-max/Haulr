@@ -9,7 +9,7 @@ interface OTPDisplayProps {
 
 const OTPDisplay: React.FC<OTPDisplayProps> = ({ otp, status }) => {
   const [copied, setCopied] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+  const timerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     return () => clearTimeout(timerRef.current);
