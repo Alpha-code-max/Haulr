@@ -1,3 +1,14 @@
+staticSites:
+  - name: haulr-client
+    buildCommand: cd client && npm ci && npm run build
+    staticPublishPath: client/dist
+    pullRequestPreviewsEnabled: false
+    envVars:
+      - key: VITE_API_URL
+        sync: false
+      - key: VITE_PAYSTACK_PUBLIC_KEY
+        sync: false
+
 services:
   - type: web
     name: haulr-api
