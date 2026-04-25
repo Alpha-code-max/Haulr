@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { FiMail, FiArrowLeft, FiSend, FiTruck, FiLock, FiMapPin, FiKey } from "react-icons/fi";
@@ -18,6 +18,11 @@ const ForgotPassword: React.FC = () => {
 
   const { forgotPassword } = useAuthStore();
   const navigate = useNavigate();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,10 +33,7 @@ const ForgotPassword: React.FC = () => {
     try {
       const res = await forgotPassword(email);
       setMessage(res.message || "OTP has been sent to your email");
-
-      setTimeout(() => {
-        navigate("/reset-password", { state: { email } });
-      }, 2500);
+      timerRef.current = setTimeout(() => navigate("/reset-password", { state: { email } }), 2500);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to send OTP. Please try again.");
     } finally {

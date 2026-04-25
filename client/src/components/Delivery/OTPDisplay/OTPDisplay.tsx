@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { FiCopy, FiCheck, FiLock } from "react-icons/fi";
 import "./OTPDisplay.css";
 
@@ -9,6 +9,11 @@ interface OTPDisplayProps {
 
 const OTPDisplay: React.FC<OTPDisplayProps> = ({ otp, status }) => {
   const [copied, setCopied] = useState(false);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   // Only show OTP when delivery is actively being transported
   const showOTP = ["picked_up", "in_transit"].includes(status) && otp;
@@ -26,7 +31,7 @@ const OTPDisplay: React.FC<OTPDisplayProps> = ({ otp, status }) => {
     if (!otp) return;
     await navigator.clipboard.writeText(otp);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    timerRef.current = setTimeout(() => setCopied(false), 2000);
   };
 
   return (

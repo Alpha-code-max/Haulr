@@ -24,6 +24,11 @@ const BankMethodModal: React.FC<BankMethodModalProps> = ({ isOpen, onClose, bala
   const [isSaving, setIsSaving] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
+  const timerRef = React.useRef<ReturnType<typeof setTimeout>>();
+
+  React.useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   React.useEffect(() => {
     if (user?.bankDetails) {
@@ -40,12 +45,7 @@ const BankMethodModal: React.FC<BankMethodModalProps> = ({ isOpen, onClose, bala
     try {
       await updateBankDetails({ bankName, accountNumber });
       setIsSuccess(true);
-      
-      // Auto-close after success
-      setTimeout(() => {
-        setIsSuccess(false);
-        onClose();
-      }, 2000);
+      timerRef.current = setTimeout(() => { setIsSuccess(false); onClose(); }, 2000);
     } catch (err: any) {
       setError(err.message || "Something went wrong while saving.");
     } finally {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useAuthStore } from "../../../store/useAuthStore";
 import { FiMail, FiLock, FiCheckCircle, FiArrowRight, FiTruck, FiArrowLeft, FiKey } from "react-icons/fi";
@@ -17,6 +17,11 @@ const ResetPassword: React.FC = () => {
   const [step, setStep] = useState<1 | 2>(1);
 
   const { resetPassword, isLoading } = useAuthStore();
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   useEffect(() => {
     if (location.state?.email) {
@@ -51,10 +56,7 @@ const ResetPassword: React.FC = () => {
     try {
       await resetPassword({ email, otp, newPassword });
       setSuccess(true);
-
-      setTimeout(() => {
-        navigate("/login");
-      }, 2500);
+      timerRef.current = setTimeout(() => navigate("/login"), 2500);
     } catch (err: any) {
       setError(err.response?.data?.message || "Invalid OTP or reset failed");
       setStep(1);

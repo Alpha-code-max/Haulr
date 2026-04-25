@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import { FiAlertTriangle, FiShield, FiRefreshCw } from "react-icons/fi";
 import api from "../../services/api";
 
@@ -24,15 +24,24 @@ const FraudFlagsPanel: React.FC = () => {
   const [flags, setFlags] = useState<FlaggedAccount[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const abortControllerRef = useRef<AbortController | null>(null);
 
-  const fetchFlags = async () => {
+  useEffect(() => {
+    return () => abortControllerRef.current?.abort();
+  }, []);
+
+  const fetchFlags = useCallback(async () => {
+    abortControllerRef.current?.abort();
+    abortControllerRef.current = new AbortController();
+    const signal = abortControllerRef.current.signal;
+
     setIsLoading(true);
     setError("");
     try {
-      const { data } = await api.get("/admin/fraud-flags");
+      const { data } = await api.get("/admin/fraud-flags", { signal });
       setFlags(data);
     } catch (err: any) {
-      // If endpoint doesn't exist, show demo data
+      if (err.name === "AbortError" || err.code === "ERR_CANCELED") return;
       if (err.response?.status === 404 || err.response?.status === 401) {
         setFlags([]);
       } else {
@@ -41,11 +50,11 @@ const FraudFlagsPanel: React.FC = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchFlags();
-  }, []);
+  }, [fetchFlags]);
 
   return (
     <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 rounded-3xl overflow-hidden">

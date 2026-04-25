@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { FiPercent, FiClock, FiSave, FiCheckCircle, FiDollarSign } from "react-icons/fi";
 import api from "../../services/api";
 
@@ -21,6 +21,11 @@ const CommissionPanel: React.FC = () => {
   const [saved, setSaved] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   useEffect(() => {
     const load = async () => {
@@ -40,7 +45,7 @@ const CommissionPanel: React.FC = () => {
     try {
       await api.put("/admin/commission-settings", settings);
       setSaved(true);
-      setTimeout(() => setSaved(false), 3000);
+      timerRef.current = setTimeout(() => setSaved(false), 3000);
     } catch (err: any) {
       setError(err.response?.data?.message || "Failed to save settings");
     } finally {

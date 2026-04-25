@@ -34,6 +34,11 @@ const WalletCard: React.FC = () => {
   const [showFundInput, setShowFundInput] = useState(false);
   const [showTransactions, setShowTransactions] = useState(false);
   const [fundSuccess, setFundSuccess] = useState("");
+  const fundSuccessTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(fundSuccessTimerRef.current);
+  }, []);
 
   useEffect(() => {
     fetchWallet();
@@ -63,7 +68,7 @@ const WalletCard: React.FC = () => {
             setFundSuccess(`₦${amount.toLocaleString()} successfully added!`);
             setShowFundInput(false);
             setFundAmount("");
-            setTimeout(() => setFundSuccess(""), 4000);
+            fundSuccessTimerRef.current = setTimeout(() => setFundSuccess(""), 4000);
           },
           onClose: () => console.log("Payment closed"),
         });
@@ -78,7 +83,7 @@ const WalletCard: React.FC = () => {
         setFundSuccess(`₦${amount.toLocaleString()} added (demo mode)`);
         setShowFundInput(false);
         setFundAmount("");
-        setTimeout(() => setFundSuccess(""), 4000);
+        fundSuccessTimerRef.current = setTimeout(() => setFundSuccess(""), 4000);
       }
     }
   };

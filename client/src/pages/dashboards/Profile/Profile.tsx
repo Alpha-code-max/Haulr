@@ -55,12 +55,23 @@ const Profile: React.FC = () => {
 
   const [stats, setStats] = useState({ deliveries: 0, rating: 0, earnings: 0 });
 
+  const successTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const copyTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
   useEffect(() => {
+    return () => {
+      clearTimeout(successTimerRef.current);
+      clearTimeout(copyTimerRef.current);
+    };
+  }, []);
+
+  useEffect(() => {
+    const controller = new AbortController();
     const fetchExtras = async () => {
       try {
         const [refRes, statsRes] = await Promise.allSettled([
-          api.get("/users/referrals"),
-          api.get("/users/stats"),
+          api.get("/users/referrals", { signal: controller.signal }),
+          api.get("/users/stats", { signal: controller.signal }),
         ]);
         if (refRes.status === "fulfilled") {
           setReferralCode(refRes.value.data.referralCode || null);
@@ -72,6 +83,7 @@ const Profile: React.FC = () => {
       } catch { /* non-critical */ }
     };
     fetchExtras();
+    return () => controller.abort();
   }, []);
 
   if (!user) return null;
@@ -94,7 +106,7 @@ const Profile: React.FC = () => {
       await updateProfile({ name, avatar });
       setSuccess("Profile updated!");
       setIsEditing(false);
-      setTimeout(() => setSuccess(null), 3000);
+      successTimerRef.current = setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) { setError(err.message); }
   };
 
@@ -113,14 +125,15 @@ const Profile: React.FC = () => {
     try {
       await updateProfile({ role: nextRole });
       setSuccess(`Switched to ${nextRole} role!`);
-      setTimeout(() => setSuccess(null), 3000);
+      successTimerRef.current = setTimeout(() => setSuccess(null), 3000);
     } catch (err: any) { setError(err.message); }
   };
 
   const handleCopy = () => {
     if (!referralCode) return;
     navigator.clipboard.writeText(referralCode).then(() => {
-      setCopySuccess(true); setTimeout(() => setCopySuccess(false), 2000);
+      setCopySuccess(true);
+      copyTimerRef.current = setTimeout(() => setCopySuccess(false), 2000);
     });
   };
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   FiShield, FiAlertCircle, FiRotateCw, FiClock,
   FiUser, FiPhone, FiCopy, FiCheck, FiKey,
@@ -31,12 +31,17 @@ const VendorOTPModal: React.FC<Props> = ({
   error,
 }) => {
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  useEffect(() => {
+    return () => clearTimeout(timerRef.current);
+  }, []);
 
   const handleCopy = async (id: string, code: string) => {
     try {
       await navigator.clipboard.writeText(code);
       setCopiedId(id);
-      setTimeout(() => setCopiedId(null), 2000);
+      timerRef.current = setTimeout(() => setCopiedId(null), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
     }
